@@ -1,106 +1,111 @@
-function [x_pred] = ...
-    KalmanPredictor(sysDT, Sim, available_states)
+function [Time_pred, Y_pred, P] = ...
+    KalmanPredictor(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, IC, in_delDT, out_delDT, e1, e2, e3, Ts)
 
-% KalmanPredictor.m
+% SmithPredictor.m
 %
-% Kalman Predictor simulation
+% Smith Predictor simulation
 
 %%%INPUTS%%%
-% sysDT: The discrete time (DT) system of the UAV
-% t_vec: Time_vector of the simulation, s
+% sysCT: The continuous time (CT) system of the UAV
+% Klqr: The LQR controller gain
+% Sim.t_vec: Time_vector of the simulation [s]
 % x_vec0: Initial states for the simulation to start. The UAV is assumed to
 % start from its steady-states
-% Klqr: The LQR gain matrix in CT
 % ref_vec: The actual reference vector without any delay
 % in_delDT: The value of the delay in the outgoing signal from the
 % groundstation to the UAV, seconds
 % out_delDT: The value of the delay in the incoming signal from the UAV to
 % the groundstation, seconds
-% z_vec_linear: This is the roundtrip delay between the groundstation-UAV-
-% groundstation. Here the output are the states found by using a linear
-% dynamic model. Possible only when y = C*x = x @ C = I. 
-% z_vec_nonlinear: This is the roundtrip delay between the groundstation-
-% UAV-groundstation. Here the output are the states found by using a
-% nonlinear dynamic model. Possible only when y = C*x = x @ C = I. 
+% uSS: Steady state input values. As the simulation starts from
+% steady-state these are also the initial values of the input thrusts and
+% torques
+% isLinear: Boolean. Should the linear or nonlinear model be used to
+% generate the actual output
 
 %%%OUTPUTS%%%
-% predicted_states_linear: The output of the Kalman Predictor (if C = I
-% then they are also the states). Outputs are obtained when a linear
-% dynamic model is used x(k+1) = A*x(k) + B*u(k) + v(k); z(k)=C*x(k) + w(k)
-% predicted_states_nonlinear: The output of the Kalman Predictor (if C = I
-% then they are also the states). Outputs are obtained when a nonlinear
-% dynamic model is used x(k+1) = f(x(k), u(k), v(k)); y=g(x(k), u(k), w(k))
+% Y_pred: The output of the Smith's Predictor
 
-%State/Output matrices
-F = sysDT.A; G =sysDT.B; H = sysDT.C;
+%%% EQUATIONS OF MOTION %%%
+%Steady-state values
+%Obtained by solving Vss^2 = uss^2+vss^2+wss^2 and alpha_ss = arctan(wss/uss)
+uss = VEq*cos(thetaEq); wss = VEq*sin(thetaEq); vss = 0;
+%Others are 0
+phiss = 0; thetass = thetaEq; psiss = 0; pss = 0; qss = 0; rss = 0;
 
-%Initial state estimate and output estimate
-x_hat_l(:,1) = Sim.initial_state; z_hat_l(:,1) = H*x_hat_l(:,1);
+%%% EOMS IN DISCRETE TIME %%%
+%Initial states
+Xss = [phiss; thetass; psiss; uss;vss;wss; pss;qss;rss];
+Shat(:,1) = IC(1:3); deltaXhatPlus(:,1) = IC(4:12) - Xss;
+Pplus(:,:,1) = eye(9);
 
-%Initial state estimate error
-x_tilde_l(:,1) = available_states(:,1) - x_hat_l(:,1);
-%Initial measurement prediction error
-z_tilde_l(:,1) = H*x_tilde_l(:,1);
-%Initial covariance estimate
-P_l(:,:,1) = eye(12);
-%Initial filter gain
-%W(:,:,1) = zeros(12);
-%Initial updated state estimate
-x_hat_l_plus_one(:,1) = Sim.initial_state;
-%Initial updated state covariance
-P_l_plus_one(:,:,1) = eye(length(Sim.initial_state));
-%Initial measurememnt prediction covariance
-S_l_plus_one(:,:,1) = eye(length(Sim.initial_state));
-%Initialize the disturbance covariance matrix Q_vec(:,:,iter) = E[v(n)v'(n)]
-V = 100*eye(size(F));%.0025*eye(size(F)); %Constant if noise is stationary
+NF=1;
+phi_noise_std = NF*.01; theta_noise_std = NF*.01; psi_noise_std = NF*.01; 
+u_noise_std = NF*.1; v_noise_std = NF*.1; w_noise_std = NF*.1; 
+p_noise_std = NF*.01; q_noise_std = NF*.01; r_noise_std = NF*.01;
 
-%Initialize the noise covariance matrix R_vec(:,:,iter) = E[w(n)w'(n)]
-W = 0*eye(12);
+W = .001*eye(9); V = diag([phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
 
-%Delays used
-Ts = Sim.Ts; %Sampling time
-d1 = Sim.out_delDT; d2 = Sim.in_delDT; %Discretized delay
-%figure
-%hold on
-%Obtain the array of inputs
-for k=1:length(Sim.t_vec)-1
-    %One step predicted state
-    x_hat_l(:,k-d1+1) = F*x_hat_l_plus_one(:,k) + G*Sim.del_des_state(:,k);
-    %State prediction error
-    %x_tilde_l(:,k+1) = available_states(:,k+1) - x_hat_l(:,k+1);
-    %State prediction covariance
-    P_l(:,:,k+1) = F*P_l_plus_one(:,:,k)*F' + W;
-    %One step predicted masurement
-    z_hat_l(:,k+1) = H*x_hat_l(:,k+1);
-    %Measurement prediction error (When C = I, measurement = state)
-    z_tilde_l(:,k+1) = available_states(:,k+1) - z_hat_l(:,k+1);
-    %Measurement prediction covariance
-    S_l(:,:,k+1) = H*P_l(:,:,k+1)*H' + V;
-    %Filter gain
-    L(:,:,k+1) = P_l(:,:,k+1)*H'*inv(S_l(:,:,k+1));
-    %Updated state estimate
-    x_hat_l_plus_one(:,k+1) = x_hat_l(:,k+1)+L(:,:,k+1)*z_tilde_l(:,k+1);
-    %Updated covariance matrix
-    P_l_plus_one(:,:,k+1) = P_l(:,:,k+1) - L(:,:,k+1)*H*P_l(:,:,k+1);
-    x_pred(:,k) = Sim.initial_state;
-    if Sim.t_vec(k)>=0
-        n = k-d1;        
-        mtx_sum=zeros(length(F),1); 
-        for i=0:1:d1-1
-            mtx_mul = eye(size(F));
-            for j=d1-1:-1:i+1
-                mtx_mul=mtx_mul*F;
-            end
-            mtx_sum=mtx_sum+mtx_mul*G*Sim.des_state(:,n+i);
+deltaU = Input - [0;deEq;0];
+
+%Resize the measurement
+delta_measurement = Measurement(4:12,:)-sysDT.C*Xss;
+
+i = in_delDT+out_delDT-1 ;
+
+predictor_index = 1; %Equivalent to l=k-d2; so the initial conditions start at l=k-d2 which is different from ode45 ICs
+
+for k = 1:length(Time)
+    if k-in_delDT-out_delDT-1>0
+        %One step prediction
+        deltaXhatMinus(:,predictor_index) = sysDT.A*deltaXhatPlus(:,predictor_index) + sysDT.B*deltaU(:, k-in_delDT-out_delDT-1);
+        Pminus(:,:,predictor_index) = sysDT.A*Pplus(:,:,predictor_index)*sysDT.A' + W;
+        
+        deltaYhat(:,predictor_index) = sysDT.C*deltaXhatMinus(:,predictor_index); %Measurement estimate
+        deltaYtilde(:,predictor_index) = delta_measurement(:,k) - deltaYhat(:,predictor_index); %Innovation
+        
+        L(:,:,predictor_index) = Pminus(:,:,predictor_index)*sysDT.C'*inv(sysDT.C*Pminus(:,:,predictor_index)*sysDT.C'+V); %Kalman gain
+        
+        %Measurement updated estimate
+        deltaXhatPlus(:,predictor_index+1) = deltaXhatMinus(:,predictor_index)+L(:,:,predictor_index)*deltaYtilde(:,predictor_index);
+        Pplus(:,:,predictor_index+1) = Pminus(:,:,predictor_index) - L(:,:,predictor_index)*sysDT.C*Pminus(:,:,predictor_index);
+        
+        %Calculating the positions using nonlinear equations
+        phi = deltaXhatPlus(1,predictor_index)+Xss(1); theta = deltaXhatPlus(2,predictor_index)+Xss(2);
+        psi = deltaXhatPlus(3,predictor_index)+Xss(3); u = deltaXhatPlus(4,predictor_index)+Xss(4);
+        v = deltaXhatPlus(5,predictor_index)+Xss(5); w = deltaXhatPlus(6,predictor_index)+Xss(6); 
+        RIB = expm(psi*hat(e3))*expm(theta*hat(e2))*expm(phi*hat(e1));
+        
+        %Update the position using nolinear equations
+        Shat(:,predictor_index+1) = Shat(:,predictor_index) + RIB*[u;v;w]*Ts;
+        
+        %Output prediction over delay, y_hat_pred by looping
+        %deltaXhatPlus(:,actual_index+1) and Pplus(:, actual_index+1) "in_delDT+out_delDT" times
+        deltaXhat_prev = deltaXhatPlus(:,predictor_index+1);
+                    
+        P_prev = Pplus(:,:,predictor_index+1); S_prev = Shat(:,predictor_index+1); RIB_prev=RIB; u_prev=u; v_prev=v; w_prev=w;
+        
+        for j = 0:i
+            deltaXhat_pred = sysDT.A*deltaXhat_prev + sysDT.B*deltaU(:, k-in_delDT-out_delDT+j);
+            P_pred = sysDT.A*P_prev*sysDT.A' + W;
+            %Calculating the positions using nonlinear equations
+            phi_pred = deltaXhat_pred(1)+Xss(1); theta_pred = deltaXhat_pred(2)+Xss(2); 
+            psi_pred = deltaXhat_pred(3)+Xss(3); u_pred = deltaXhat_pred(4)+Xss(4);
+            v_pred = deltaXhat_pred(5)+Xss(5); w_pred = deltaXhat_pred(6)+Xss(6);
+            
+            RIB_pred = expm(psi_pred*hat(e3))*expm(theta_pred*hat(e2))*expm(phi_pred*hat(e1));
+            
+            S_pred = S_prev + RIB_prev*[u_prev;v_prev;w_prev]*Ts;
+            
+            deltaXhat_prev = deltaXhat_pred; S_prev = S_pred; P_prev = P_pred; RIB_prev=RIB_pred; u_prev=u_pred; v_prev=v_pred; w_prev=w_pred; 
         end
-        x_pred(:,k) = (F^d1)*x_hat_l_plus_one(:,k) + mtx_sum;
-        %pred_time(k) = Sim.t_vec(k);
-    end  
-%     plot(Sim.t_vec(k), x_pred(3,k), 'ro', Sim.t_vec(k), available_states(3,k), 'k+')
-%     ylim([-20, -4])
-%     xlim([-1, 20])
-%     hold on
+        Sstar=Measurement(1:3,k) + S_pred - Shat(:,predictor_index+1);
+        %Calculate the predicted output
+        Y_pred(:, predictor_index) = eye(12)*[Sstar; deltaXhat_pred+Xss];
+        Time_pred(predictor_index) = Time(k);
+        P(:,:,predictor_index) = P_pred;
+        predictor_index = predictor_index + 1;
+    end        
 end
 
-end
+
 

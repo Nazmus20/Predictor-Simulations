@@ -78,7 +78,6 @@ rho = Values.rho;
 u_T = ucntrl(1); u_phi = ucntrl(2); 
 u_theta = ucntrl(3); u_psi = ucntrl(4);
 
-
 %fxu@(Dx,Dy,Dz,Ixx,Ixy,Iyy,Iyz,Izx,Izz,g,m,p,phi_r,psi_r,q,r,rho,theta_r,
 %u,u_T,u_phi,u_psi,u_theta,v,w) replace the values properly. Nonlinear 
 %model: x_dot = f(x-x_ref,u-u_ref)
@@ -86,7 +85,6 @@ x_dot = feval(fxu, Dx,Dy,Dz,Ixx,Ixy,Iyy,Iyz,Izx,Izz,g,m,p,phi_r,psi_r,q, ...
     r,rho,theta_r,u,u_T,u_phi,u_psi,u_theta,v,w);
 
 %Integrate x_dot equation (given in Eqn ***)
-%dx = des_state_deriv + x_dot;
 dx = x_dot;
 ulqr = [u_T;u_phi;u_theta;u_psi];
 end

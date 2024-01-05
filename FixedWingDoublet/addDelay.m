@@ -39,12 +39,12 @@ if col_of_mtx ~= length_of_time | row_of_mtx ~= row_of_init_val
     
 else
     %Find the first index in time vector that passes the delay time
-    del_idx = find(time_vector - delayAmount > 0, 1);
+    del_idx = find(time_vector - delayAmount >= 0, 1);
     for i = 1:length_of_time
-        if time_vector(i) <= delayAmount
+        if time_vector(i) < delayAmount
             delayedMtx(:,i) = initial_value;
         else
-            delayedMtx(:,i) = undelayedMtx(:,i+1-del_idx);
+            delayedMtx(:,i) = undelayedMtx(:,i-del_idx+1);
         end
     end
 end

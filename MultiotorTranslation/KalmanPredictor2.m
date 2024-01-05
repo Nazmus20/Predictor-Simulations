@@ -63,7 +63,7 @@ d1 = Sim.out_delDT; d2 = Sim.in_delDT; %Discretized delay
 %hold on
 
 z_hat_l(:,1) = available_states(:,1);
-for k=1:length(Sim.t_vec)-1
+for k=1:length(Sim.t_vec)-3
     n = k-d1; l = k-d1-d2;
     if n>=1 && Sim.t_vec(k)<0
         x_hat_l_plus_one(:,n) = Sim.initial_state;
@@ -81,7 +81,7 @@ for k=1:length(Sim.t_vec)-1
         %One step predicted masurement
         z_hat_l(:,l) = H*x_hat_l(:,n);
         %Measurement prediction error (When C = I, measurement = state)
-        z_tilde_l(:,l) = H*available_states(:,k) - z_hat_l(:,l);
+        z_tilde_l(:,l) = H*available_states(:,k+2) - z_hat_l(:,l);
         %Measurement prediction covariance
         S_l(:,:,n) = H*P_l(:,:,n)*H' + V;
         %Filter gain

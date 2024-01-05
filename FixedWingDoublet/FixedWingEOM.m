@@ -1,133 +1,99 @@
-function dx_vecdt = FixedWingEOM(Param)
+function dxdt=FixedWingEOM(t,x,tmaneuver,devec, Ts)
+%Nonlinear EOMs for Fixed Wing Aircraft
+% State vector:
+% x=[x;y;z;
+%    phi;theta;psi;
+%    u;v;w;
+%    p;q;r];
+global e1 e2 e3 m rho g Inertia b c S ...
+    Cj2 Cj Cj0 ...
+    Cxalpha Cxde Cx0 Cxq Cxalpha2...
+    Czalpha Czq Cz0 Czde...
+    Cmalpha Cmq Cmde Cm0 ...
+    Cybeta Cyp Cyr Cyda Cydr Cy0 ...
+    Clbeta Clp Clda Clr Cldr Cl0...
+    Cnbeta Cnr Cnda Cndr Cnp Cn0...
+    drpsEq PropDia nProp etaProp VEq deEq thetaEq
 
-% MultirotorEOM.m
-%
-% For deriving the dynamic EOMs of a multirotor aircraft adopted from
-% Nazmus Sakib's dissertation. This script symbolically or numerically
-% finds the EOMs based on Eqn. 3.4 in the dissertation. This EOM derivation
-% includes aerodynamic forces, moments and gyroscopic moments. Terms can be
-% omitted to make the kinematic and dynamic EOMs simpler. The function
-% takes both numerical and symbolic variables as inputs. The term "actual"
-% here is used to distinguish from the "modeled" EOMs. The "actual" EOM
-% function is used to obtain outputs for the simulation. The "modeled" EOMs
-% are used to predict the system dynamics. This demonstrates the effect of
-% different predictors when the model and the actual values are different.
-% Here, the model is intentionally made different (without having Aero/Gyro
-% forces/moments) to see how different predictors perform
+%Defining states
+X=x(1:3);
+Theta=x(4:6);
+    phi=Theta(1);
+    theta=Theta(2);
+    psi=Theta(3);
+V=x(7:9);
+    u=V(1);
+    v=V(2);
+    w=V(3);
+omega=x(10:12);
+    p=omega(1);
+    q=omega(2);
+    r=omega(3);
 
-%%%INPUT%%%
-% Param: Structure with fields containing mass and inertia properties,
-% states, and system inputs. Param should be constructed with the
-% following fields:
-% Param.m: mass of the UAV, [kg]
-% Param.I: Moment of inertia matrix of the UAV, [kg-m^2]
-% Param.states: The 12-states of the UAV arranged as: [x y z phi_r
-% theta_r psi_r u v w p q r]
-% Param.inputs: The 4-inputs of the UAV (forces and moments)
-
-%%%OUTPUT%%%
-% dx_vecdt: The 12 nonlinear EOMs
-
-% Basis vectors in 3D
-e1 = [1;0;0]; e2 = [0;1;0]; e3 = [0;0;1];
-
-Inertia = Param.I; m = Param.m; g = Param.g; rho = Param.rho; W = Param.W;
-
-%State vectors
-%Position vector of FB w.r.t. FI, [m]
-s_vec = [Param.states(1); Param.states(2); Param.states(3)]; 
-%Rotation of FB w.r.t. FI, [rad]
-Theta_vec = [Param.states(4); Param.states(5); Param.states(6)];
-%Velocity in FB, [m/s]
-v_vec = [Param.states(7); Param.states(8); Param.states(9)]; 
-%FB angular rates, rad/s
-omega_vec = [Param.states(10); Param.states(11); ...
-    Param.states(12)];
-
-%Input forces and moments
-u_T = Param.inputs(1); u_phi = Param.inputs(2); u_theta = Param.inputs(3);
-u_psi = Param.inputs(4);
-
-%Extracting individual states
-x = s_vec(1); y = s_vec(2); z = s_vec(3); phi_r = Theta_vec(1);
-theta_r = Theta_vec(2); psi_r = Theta_vec(3); u = v_vec(1); v = v_vec(2);
-w = v_vec(3); p = omega_vec(1); q = omega_vec(2); r = omega_vec(3);
-
-%Rotation matrix and attitude kinematic equations
-RIB = expm(psi_r*skew_convert(e3))*expm(theta_r*skew_convert(e2))*...
-    expm(phi_r*skew_convert(e1));
-LIB = [1, sin(phi_r)*tan(theta_r), cos(phi_r)*tan(theta_r);
-    0, cos(phi_r), -sin(phi_r);
-    0, sin(phi_r)/cos(theta_r), cos(phi_r)/cos(theta_r)];
-
-%Aerodynamic forces and moments
-% Aerodynamic angles 
-beta = asin(v/norm(v_vec));
-alpha = atan2(w,u);
-
-% Control deflections
-de = deEq;
-da = 0;
-dr = 0;
-
-%normalized values
-phat = p*b/2/VEq;
-rhat = r*b/2/VEq;
-qhat = q*c/2/VEq;
-PDyn = .5*rho*VEq^2; %Dynamic pressure, lb/ft^2
-
-% Aerodynamic force coefficients
-Cx = Cxalpha*alpha + Cxde*de + Cxalpha2*(alpha^2) + Cx0; 
-Cz = Czalpha*alpha + Czde*de + Czalpha2*(alpha^2) + Cz0;
-Cy = Cybeta*beta + Cyp*phat + Cyr*rhat + Cyda*da + Cydr*dr + Cybeta3*(beta^3); 
-
-%Aerodynamic forces vectors
-X = PDyn*S*Cx + ThrustEq;
-Y = PDyn*S*Cy;
-Z = PDyn*S*Cz;
-Force_Aero = [X; Y; Z];
-
-% Components of aerodynamic moment 
-Cl = Clbeta*beta + Clp*phat + Clr*rhat + Clda*da;
-Cm = Cmalpha*alpha + Cmq*qhat + Cmde*de + Cmalpha2*(alpha^2) + ...
-    Cmalpha3*(alpha^3) + Cm0;
-Cn = Cnbeta*beta + Cnp*phat + Cnr*rhat + Cnda*da + Cndr*dr + (Cnbeta3*beta^3);
-
-%Aerodynamic moments vectors
-L = PDyn*S*b*Cl;
-M = PDyn*S*c*Cm;
-N = PDyn*S*b*Cn;
-Moment_Aero = [L; M; N];
+RotMat=expm(psi*hat(e3))*expm(theta*hat(e2))*expm(phi*hat(e1));
+LMat=[1 sin(phi)*tan(theta) cos(phi)*tan(theta);
+    0 cos(phi) -sin(phi);
+    0 sin(phi)*sec(theta) cos(phi)*sec(theta);];
 
 
+%Control Inputs
+if t>=tmaneuver(1)+Ts
+    de=interp1(tmaneuver+Ts,devec,t); %Take the perturbed input, use zero order hold. Add one sampling time delay due to discretization
+else
+    de = devec(1);
+end
+da=0; % elevator
+dr=0; %interp1(tmaneuver,devec,t); % rudder
+drps=drpsEq; % rps
+
+% Air speed, alpha, beta, etc
+Vt=sqrt(u^2 + v^2 + w^2);
+alpha=atan(w/u);
+beta=asin(v/Vt);
+
+phat= p*b/(2*Vt);
+qhat= q*c/(2*Vt);
+rhat= r*b/(2*Vt);
+
+J=Vt/(drps*PropDia);
+
+%Thrust model
+CJ = Cj0 + Cj*(J) + Cj2*(J)^2;
+     
+%Aerodynamic Forces
+Cx = Cx0 + Cxq*qhat + Cxde*de + Cxalpha*alpha + Cxalpha2*alpha^2;
+Cy = Cy0 + Cyp*phat + Cyr*rhat + Cyda*da + Cybeta*beta + Cydr*dr; 
+Cz = Cz0 + Czq*qhat + Czde*de + Czalpha*alpha ;
+
+dynpres=(1/2)*rho*Vt^2;
+X = dynpres*S*Cx +PropDia^4*rho*etaProp*nProp*drps^2*CJ;
+Y = dynpres*S*Cy;
+Z = dynpres*S*Cz;
+
+%Aerodynamic Moments
+Cl = Cl0 + Clp*phat + Clr*rhat + Clda*da + Cldr*dr + Clbeta*beta; 
+Cm = Cm0 + Cmq*qhat + Cmde*de + Cmalpha*alpha;
+Cn = Cn0 + Cnp*phat +Cnr*rhat + Cnda*da + Cndr*dr + Cnbeta*beta ;
+
+Gravity=RotMat'*[0; 0; m*g];
+
+Force=[X;Y;Z;] + Gravity;
+
+L=dynpres*S*b*Cl;
+M=dynpres*S*c*Cm;
+N=dynpres*S*b*Cn; 
+
+Moment=[L;M;N;];
+
+% Equations of Motion
+
+% Kinematic Equations
+Xdot=RotMat*V;
+Thetadot=LMat*omega;
+
+% Dynamic Equations
+Vdot=1/m*(Force) + cross(V,omega);
+omegadot=Inertia\(Moment+ cross(Inertia*omega, omega));
 
 
-
-F_aero = 0;
-M_aero = 0;
-
-%Propulsive forces and moments, these are generated by the inputs to the
-%system
-F_prop = u_T*e3; %Force along kb axis 
-%Roll, pitch, yaw moments in ib, jb, kb 
-M_prop = u_phi*e1 + u_theta*e2 + u_psi*e3; 
-
-%Gravity and gyroscopic moment (Gyro forces assumed to be 0 to have an 
-%inaccurate model)
-F_gravity = RIB'*(m*g*e3);
-M_gyro = 0;
-
-% Sum of forces and moments
-Force = F_gravity + F_aero + F_prop;
-Moment = M_aero + M_prop + M_gyro;
-
-% KINEMATIC EQUATIONS %%%
-ds_vecdt = RIB*v_vec;
-dTheta_vecdt = LIB*omega_vec;
- 
-% DYNAMIC EQUATIONS %%%
-dv_vecdt = (1/m)*(cross(m*v_vec,omega_vec) + Force);
-domega_vecdt = inv(Inertia)*(cross(Inertia*omega_vec,omega_vec) + Moment);
-
-%Form the 12 state EOM of the UAV
-dx_vecdt = [ds_vecdt; dTheta_vecdt; dv_vecdt; domega_vecdt];
+dxdt=[Xdot; Thetadot; Vdot; omegadot;];

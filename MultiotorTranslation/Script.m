@@ -196,13 +196,13 @@ ht = matlabFunction(dxdtActual);
 [thistNL, actual_states_NL] = ode45(@(tdum,xdum) ...
     NonlinearMultirotorTrajectory(tdum, xdum, ht, Klqr, ...
     Values, Sim), Sim.t_vec, Sim.initial_state); 
-%{
+
 for i=1:length(thistL)
     [~, uL(:,i)] = LinearMultirotorTrajectory(thistL(i), actual_states_L(i,:)', A, B, Klqr, Sim);
     [~, uNL(:,i)] = NonlinearMultirotorTrajectory(thistL(i), actual_states_NL(i,:)',  ht, Klqr, ...
     Values, Sim);
 end
-%}
+
     
 %Apply incoming delay to the outputs/states (y = C*x = x when C = I). This
 %is the delay between the UAV and the groundstation
@@ -216,7 +216,7 @@ orig_measurement = del_actual_states_NL;
 orig_time = Sim.t_vec;
 
 %Figure with true values and 0 noise
-n_plot=8;
+n_plot=9;
 figure
 plot(Sim.t_vec, Sim.des_state(n_plot,:), 'k-', Sim.t_vec, ...
     Sim.del_des_state(n_plot,:), 'k--', Sim.t_vec, ...
@@ -344,7 +344,7 @@ Sim.des_input = [des_input_append, Sim.des_input];
 Sim.del_des_input = [del_des_input_append, Sim.del_des_input];
 Sim.del_des_state = [del_des_states_append, Sim.del_des_state];
 Sim.des_state = [des_states_append, Sim.des_state];
-uNL = [uNL_append, uNL];
+%uNL = [uNL_append, uNL];
 
  %%  
  clear all; clc; close all;
@@ -353,10 +353,10 @@ uNL = [uNL_append, uNL];
 %    KalmanPredictor(CLTF_DT, Sim, del_actual_states_NL);
 [t_KP2, predicted_states_KP2, info] = ...
     KalmanPredictor2(CLTF_DT, Sim, del_actual_states_NL);
-int = 8;
+int = 2;
 figure
 %The two graphs match when the time is shifted by: "Sim.t_vec(1:end-1)-Sim.in_del+Sim.Ts" 
-plot(orig_time-Sim.in_del-Sim.out_del-Sim.Ts, orig_measurement(int,:), 'k-', t_KP2, predicted_states_KP2(int,:), 'r-', t_KP2, predicted_states_SP(int,2:end), 'b-')
+plot(orig_time-Sim.in_del-Sim.out_del-Sim.Ts, orig_measurement(int,:), 'k-', t_KP2, predicted_states_KP2(int,:), 'r-', t_KP2, predicted_states_SP(int,1:end-3), 'b-')
 %plot(Sim.t_vec-Sim.in_del-Sim.out_del-Sim.Ts, del_actual_states_NL(3,:), 'k-', Sim.t_vec(1:end-1), predicted_states_KP(3,:), 'r--', t_KP2, predicted_states_KP2(3,:), 'g--', Sim.t_vec(1+Sim.out_delDT+Sim.in_delDT:end), predicted_states_SP(3,:), 'b--')
 title("KP")
 legend('Measurement shifted', 'KP', 'SP')
