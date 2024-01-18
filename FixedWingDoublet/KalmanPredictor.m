@@ -98,7 +98,8 @@ for k = 1:length(Time)
             
             deltaXhat_prev = deltaXhat_pred; S_prev = S_pred; P_prev = P_pred; RIB_prev=RIB_pred; u_prev=u_pred; v_prev=v_pred; w_prev=w_pred; 
         end
-        Sstar=Measurement(1:3,k) + S_pred - Shat(:,predictor_index+1);
+        %Sstar=Measurement(1:3,k) + S_pred - Shat(:,predictor_index+1);
+        Sstar=S_pred;
         %Calculate the predicted output
         Y_pred(:, predictor_index) = eye(12)*[Sstar; deltaXhat_pred+Xss];
         Time_pred(predictor_index) = Time(k);

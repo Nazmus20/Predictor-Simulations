@@ -124,7 +124,7 @@ if strcmp('none',Maneuver)
 
 elseif strcmp('doublet',Maneuver)
     %Doublet start time (in sec), amplitude (in rad), and duration (in sec)
-    tstart = 5; doubletAmp = 2*pi/180; duration = 2; tmaneuver=tvec; 
+    tstart = 5; doubletAmp = 20*pi/180; duration = 2; tmaneuver=tvec; 
     for n=1:length(tvec)
         if tvec(n) >= tstart && tvec(n) < tstart+duration 
             de_vec(n) = deEq + doubletAmp; %rad
@@ -263,18 +263,19 @@ Input_undelayed = [zeros(size(de_vec)); de_vec; zeros(size(de_vec))];
 
 %Start the predictors after 1 sec
 idx = find(tvec==1.0);
-t_vector = tvec(idx:end);
+t_vector = tvec;
 
 %Initial condition at t = in_del. Because the states are at this time step
-ICdel = yNLund(:,in_delDT+1);
+ICdel = yNLund(:,1);
 ICund = yNLund(:,in_delDT+1);
 
 %%Predictor
 %[Time_pred_SP, YSP] = SmithPredictor(sysDT, tvec, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, ICdel, ICund, in_delDT, out_delDT, e1, e2, e3, Ts);
-[Time_pred_KP, YKP, P] = KalmanPredictor(sysDT, t_vector, del_actual_output_NL(:,idx:end), Input_undelayed, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
-[Time_pred_SP2, YSP2] = SmithPredictor2(sysDT, t_vector, del_actual_output_NL(:,idx:end), Input_undelayed, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
+[Time_pred_KP, YKP, P] = KalmanPredictor(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
+[Time_pred_SP2, YSP2] = SmithPredictorNEW(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end),Input_delayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 
 %% Needed for EKP
+%{
 addpath('functions\');
 
 ff = @(x,u) [x(9)*(sin(x(4))*sin(x(6)) + cos(x(4))*cos(x(6))*sin(x(5))) - 1.0*x(8)*(cos(x(4))*sin(x(6)) - 1.0*cos(x(6))*sin(x(4))*sin(x(5))) + x(7)*cos(x(5))*cos(x(6));
@@ -321,17 +322,16 @@ HH = @(x) eye(12);
 
 W = .001*eye(12); 
 V = 1*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
-
+%}
 %%
 
-[YEKP, ~, ~] = ExtendedKalmanFilter(del_actual_output_NL(:,idx:end)', ff, Input_undelayed', hh, FF, HH, W, V, zeros(12,1),  ICdel, eye(12), 10, Ts, length(t_vector), 12, 12, in_delDT, out_delDT);
+%[YEKP, ~, ~] = ExtendedKalmanFilter(del_actual_output_NL(:,idx:end)', ff, Input_undelayed', hh, FF, HH, W, V, zeros(12,1),  ICdel, eye(12), 10, Ts, length(t_vector), 12, 12, in_delDT, out_delDT);
 
 %%
 close all;
 figure
-nplot=5;
-plot(tvec(idx:end), del_actual_output_NL(nplot,idx:end), 'r+', tvec, yNLund(nplot,:), 'k-', Time_pred_SP2, YSP2(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', ...
-    t_vector, YEKP(nplot,:), 'b-')
+nplot=1;
+plot(tvec(idx:end), del_actual_output_NL(nplot,idx:end), 'r+', tvec, yNLund(nplot,:), 'k-', Time_pred_SP2, YSP2(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--')
 legend('Act' , 'Undelayed measurement', 'YSP', 'YKP')
 
 %{

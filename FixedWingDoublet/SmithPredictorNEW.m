@@ -1,5 +1,5 @@
 function [Time_pred, Y_pred] = ...
-    SmithPredictorNEW(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, ICdel, ICund, d1, d2, e1, e2, e3, Ts)
+    SmithPredictorNEW(sysDT, Time, Measurement, Input, del_Input, VEq, thetaEq, deEq, ICdel, d1, d2, e1, e2, e3, Ts)
 
 %%%INPUTS%%%
 % sysCT: The continuous time (CT) system of the UAV
@@ -31,22 +31,17 @@ phiss = 0; thetass = thetaEq; psiss = 0; pss = 0; qss = 0; rss = 0;
 %%% EOMS IN DISCRETE TIME %%%
 %Initial states
 Xss = [phiss; thetass; psiss; uss;vss;wss; pss;qss;rss];
-Sund(:,1) = ICund(1:3); deltaXund(:,1) = ICund(4:12) - Xss;
-Sdel(:,1) = ICdel(1:3,1); deltaXdel(:,1) = ICdel(4:12) - Xss;
+Sk = ICdel(1:3); 
+xk = ICdel(4:12) - Xss;
 
 deltaU = Input - [0;deEq;0];
+del_deltaU = del_Input - [0;deEq;0];
 
 kmax=length(Time);
 
 %Initialize state and output
-xk=zeros(9,1);
-xkp1=zeros(9,1);
-yhat=zeros(9,1);
 Y_pred=zeros(12,kmax-d2-d1-1);
 Time_pred=zeros(1,kmax-d2-d1-1);
-
-xk=deltaXdel(:,1);
-Sk=Sdel;
 
 
 for k=1:kmax
@@ -63,7 +58,7 @@ for k=1:kmax
         xkp1=sysDT.A*xk + sysDT.B*uk;
         
         %Delayed output
-        yhatkmd2=eye(12)*[Skp1; xkp1+Xss];
+        yhatkmd2=eye(9)*[xkp1+Xss];
         
         %Update for next step
         xk=xkp1;
@@ -72,31 +67,35 @@ for k=1:kmax
         % Finding undelayed states
         xprev=xkp1;
         Sprev=Skp1;
-        for i=1:d2+d1
+        for i=1:d1+d2
            %Kinematic propagation
            phiprev = xprev(1) + Xss(1); thetaprev = xprev(2) + Xss(2); psiprev = xprev(3) + Xss(3); 
            uprev = xprev(4) + Xss(4); vprev = xprev(5) + Xss(5); wprev = xprev(6) + Xss(6);
            RIBprev = expm(psiprev*hat(e3))*expm(thetaprev*hat(e2))*expm(phiprev*hat(e1));
-           Spred=Sprev + RIBprev*[uprev;vprev;wprev]*Ts;
+           
+           nStep=10;
+           for nn=1:nStep
+           Spred=Sprev + RIBprev*[uprev;vprev;wprev]*Ts/nStep;
+           Sprev=Spred;
+           end
            
            %Dyanmic propagation
-           ukpi=deltaU(:,k-d2-d1-1+i); 
+           ukpi=deltaU(:,k-d1-d2-1+i); 
            xpred=sysDT.A*xprev+sysDT.B*ukpi;
            
            %Update for next step
            xprev=xpred;
-           Sprev=Spred;
         end
        
         %Undelayed output
-        yhatkpd1=eye(12)*[Spred ; xpred + Xss];
-        
+        yhatkpd1=eye(9)*[xpred + Xss];
+        Sstar=Spred;
         %Delayed measurement
-        ykmd2=Measurement(:,k);
+        ykmd2=Measurement(4:12,k);
         
-        l=k-d2-d1-1; %"actual index" 
-        Y_pred(:,l)=ykmd2 + (yhatkpd1 - yhatkmd2);
-        Time_pred(l)=Time(k);
+        el=k-d1-d2-1; %"actual index" 
+        Y_pred(:,el)=[Sstar; ykmd2 + (yhatkpd1 - yhatkmd2)];
+        Time_pred(el)=Time(k);
    end
    
     
