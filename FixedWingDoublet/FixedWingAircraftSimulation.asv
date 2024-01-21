@@ -124,7 +124,7 @@ if strcmp('none',Maneuver)
 
 elseif strcmp('doublet',Maneuver)
     %Doublet start time (in sec), amplitude (in rad), and duration (in sec)
-    tstart = 5; doubletAmp = 20*pi/180; duration = 2; tmaneuver=tvec; 
+    tstart = 5; doubletAmp = 10*pi/180; duration = 2; tmaneuver=tvec; 
     for n=1:length(tvec)
         if tvec(n) >= tstart && tvec(n) < tstart+duration 
             de_vec(n) = deEq + doubletAmp; %rad
@@ -267,10 +267,10 @@ idx = find(tvec==1.0);
 t_vector = tvec;
 
 %Initial condition at t = in_del. Because the states are at this time step
-ICdel = yNLund(:, in_delDT+1);
+ICdel = yNLund(:, 1);
 
 %%Predictor
-[Time_pred_SP, YSP] = SmithPredictor(sysDT, tvec, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, IC, in_delDT, out_delDT, e1, e2, e3, Ts);
+[Time_pred_SP, YSP] = SmithPredictor(sysDT, tvec, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 [Time_pred_KP, YKP, P] = KalmanPredictor(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 [Time_pred_SP2, YSP2] = SmithPredictorNEW(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end),Input_delayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 
@@ -323,14 +323,22 @@ V = 1*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; phi_noise_std^2;theta_n
 
 %%
 
-[TEKP, YEKP,] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, IC, in_delDT, out_delDT, Ts);
+[TEKP, YEKP,] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, ICdel, in_delDT, out_delDT, Ts);
 
 %%
 close all;
 figure
-nplot=1;
-plot(tvec, del_actual_output_NL(nplot,:), 'r+', tvec, yNLund(nplot,:), 'k-', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', Time_pred_SP2, YSP2(nplot,:), 'g--', TEKP, YEKP(nplot,:), 'm--')
+nplot=5;
+plot(tvec(idx:end), del_actual_output_NL(nplot,idx:end), 'r+', tvec, yNLund(nplot,:), 'k-', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', Time_pred_SP2, YSP2(nplot,:), 'g--', TEKP, YEKP(nplot,:), 'm--')
 legend('Act' , 'Undelayed measurement', 'YSP', 'YKP', 'YSP2','YEKP')
+
+%{
+Changelog: 
+- tried to increase the time from 0 s to 1 sec. lines 271/272
+- Changed the "SmithPredictor2" function to work properly
+- Changed the KP to perform position prediction (s_hat) like a smith's
+predictor. Named it "Sstar", use "S_pred" to get the previous output.
+%}
 
 %{
 figure

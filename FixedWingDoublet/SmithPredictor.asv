@@ -1,5 +1,5 @@
 function [Time_pred, Y_pred] = ...
-    SmithPredictor(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts)
+    SmithPredictor(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, ICdel, ICund, in_delDT, out_delDT, e1, e2, e3, Ts)
 
 % SmithPredictor.m
 %
@@ -48,7 +48,7 @@ for k = 1:length(Time)-1
         %Delayed states one-step propagation
         deltaXdel(:, predictor_index + 1) = sysDT.A * deltaXdel(:, predictor_index) + sysDT.B * deltaU(:, k - in_delDT - out_delDT - 1);
         %Delayed output, y_hat_del
-        Y_hat_del(:, predictor_index) = sysDT.C * (deltaXdel(:, predictor_index) + Xss);
+        Y_hat_del(:, predictor_index) = eye(12) * [Shat(:, predictor_index); deltaXdel(:, predictor_index) + Xss];
         
         %Calculating the next step positions using nonlinear equations and
         %delayed states
@@ -63,23 +63,30 @@ for k = 1:length(Time)-1
             deltaXhat_pred = sysDT.A * deltaXhat_prev + sysDT.B * deltaU(:, k - in_delDT - out_delDT + j);
             
             %Calculating the positions using nonlinear equations
-            phi_pred = deltaXhat_pred(1) + Xss(1); theta_pred = deltaXhat_pred(2) + Xss(2); 
-            psi_pred = deltaXhat_pred(3) + Xss(3); u_pred = deltaXhat_pred(4) + Xss(4);
-            v_pred = deltaXhat_pred(5) + Xss(5); w_pred = deltaXhat_pred(6) + Xss(6);
+            phi_pred = deltaXhat_pred(1)+Xss(1); theta_pred = deltaXhat_pred(2)+Xss(2); 
+            psi_pred = deltaXhat_pred(3)+Xss(3); u_pred = deltaXhat_pred(4)+Xss(4);
+            v_pred = deltaXhat_pred(5)+Xss(5); w_pred = deltaXhat_pred(6)+Xss(6);
             
-            RIB_pred = expm(psi_pred * hat(e3)) * expm(theta_pred * hat(e2)) * expm(phi_pred * hat(e1));
+            RIB_pred = expm(psi_pred*hat(e3))*expm(theta_pred*hat(e2))*expm(phi_pred*hat(e1));
             
-            S_pred = S_prev + RIB_prev * [u_prev; v_prev; w_prev] * Ts;
+            S_pred = S_prev + RIB_prev*[u_prev;v_prev;w_prev]*Ts;
             
-            deltaXhat_prev = deltaXhat_pred; S_prev = S_pred;
-            RIB_prev = RIB_pred; u_prev = u_pred; v_prev = v_pred; w_prev = w_pred; 
+            deltaXhat_prev = deltaXhat_pred; S_prev = S_pred; P_prev = P_pred; RIB_prev=RIB_pred; u_prev=u_pred; v_prev=v_pred; w_prev=w_pred; 
         end
+        %Undelayed states one-step propagation
+        deltaXund(:,predictor_index+1) = sysDT.A*deltaXund(:,predictor_index) + sysDT.B*deltaU(:, k);
+        %Undelayed output, y_hat_und
+        Y_hat_und(:,predictor_index) = eye(12)*[Sund(:, predictor_index); deltaXund(:,predictor_index)+Xss];
         
-        %Undelayed Output
-        Y_hat_und(:, predictor_index) = sysDT.C * (deltaXhat_pred  + Xss);
-        
+        %Calculating the next step positions using nonlinear equations and
+        %delayed states
+        phi_und = deltaXund(1,predictor_index+1) + Xss(1); theta_und = deltaXund(2,predictor_index+1) + Xss(2); psi_und = deltaXund(3,predictor_index+1) + Xss(3); 
+        u_und = deltaXund(4,predictor_index+1) + Xss(4); v_und = deltaXund(5,predictor_index+1) + Xss(5); w_und = deltaXund(6,predictor_index+1) + Xss(6);
+        RIB_und = expm(psi_und*hat(e3))*expm(theta_und*hat(e2))*expm(phi_und*hat(e1));
+        Sund(:, predictor_index+1) = Sund(:,predictor_index) + RIB_und*[u_und;v_und;w_und]*Ts;
+                
         %Calculate the predicted output
-        Y_pred(:, predictor_index) = [S_pred; Measurement(4:12, k) + Y_hat_und(:,predictor_index) - Y_hat_del(:,predictor_index)]; %Measurement at k is already delayed
+        Y_pred(:, predictor_index) = Measurement(:,k) + Y_hat_und(:,predictor_index) - Y_hat_del(:,predictor_index); %Measurement at k is already delayed
         Time_pred(predictor_index) = Time(k);
         predictor_index = predictor_index + 1;
     end

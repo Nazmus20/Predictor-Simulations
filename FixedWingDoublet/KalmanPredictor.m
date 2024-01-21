@@ -43,14 +43,14 @@ phi_noise_std = NF*.01; theta_noise_std = NF*.01; psi_noise_std = NF*.01;
 u_noise_std = NF*.1; v_noise_std = NF*.1; w_noise_std = NF*.1; 
 p_noise_std = NF*.01; q_noise_std = NF*.01; r_noise_std = NF*.01;
 
-W = .001*eye(9); V = diag([phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
+W = 100*eye(9); V = diag([phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
 
 deltaU = Input - [0;deEq;0];
 
 %Resize the measurement
 delta_measurement = Measurement(4:12,:)-sysDT.C*Xss;
 
-i = in_delDT+out_delDT-1 ;
+i = in_delDT+out_delDT - 1 ;
 
 predictor_index = 1; %Equivalent to l=k-d2; so the initial conditions start at l=k-d2 which is different from ode45 ICs
 

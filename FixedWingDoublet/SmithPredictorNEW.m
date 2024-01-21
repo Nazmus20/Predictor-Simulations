@@ -67,7 +67,7 @@ for k=1:kmax
         % Finding undelayed states
         xprev=xkp1;
         Sprev=Skp1;
-        for i=1:d1+d2
+        for i=1:d1+d2-1
            %Kinematic propagation
            phiprev = xprev(1) + Xss(1); thetaprev = xprev(2) + Xss(2); psiprev = xprev(3) + Xss(3); 
            uprev = xprev(4) + Xss(4); vprev = xprev(5) + Xss(5); wprev = xprev(6) + Xss(6);
@@ -100,20 +100,5 @@ for k=1:kmax
    
     
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 end
