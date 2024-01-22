@@ -95,6 +95,7 @@ for k=1:kmax
         
         el=k-d1-d2-1; %"actual index" 
         Y_pred(:,el)=[Sstar; ykmd2 + (yhatkpd1 - yhatkmd2)];
+        %Y_pred(1,el)=Y_pred(1,el)-18;
         Time_pred(el)=Time(k);
    end
    

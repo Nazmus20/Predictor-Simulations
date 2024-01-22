@@ -29,7 +29,7 @@ y = zeros(sz_out,kmax);
 yhat = y;
 Pm = zeros(sz,sz,kmax);
 Pp = Pm;
-x0=IC-[48;0;0;0;0;0;0;0;0;0;0;0];
+x0=IC;
 
 %This is the index for both delays -1
 i=d1+d2-1;
@@ -56,9 +56,7 @@ i=d1+d2-1;
 
         %Innovation
         nu=y(:,k+1)-yhat(:,k+1);
-        nu_all(:,k+1)=y(:,k+1)-yhat(:,k+1);
-
-
+        
         %Gain matrix
         Hmat=feval(H, xm(:,k+1));
         K(:,:,k)=Pm(:,:,k+1)*Hmat'*inv(Hmat*Pm(:,:,k+1)*Hmat' + V);
@@ -80,6 +78,7 @@ i=d1+d2-1;
         x0=xp(:,k+1);
         el=k-d1-d2-1; %"actual index"
         Y_pred(:,el)=feval(h, xprev, Input(:, k-d1-d2+i));
+        %Y_pred(1,el)=Y_pred(1,el)-0;
         Time_pred(el)=Time(k);
         
         end

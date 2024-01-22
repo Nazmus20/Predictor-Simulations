@@ -267,10 +267,10 @@ idx = find(tvec==1.0);
 t_vector = tvec;
 
 %Initial condition at t = in_del. Because the states are at this time step
-ICdel = yNLund(:, in_delDT+1);
+ICdel = yNLund(:,1);
 
 %%Predictor
-[Time_pred_SP, YSP] = SmithPredictor(sysDT, tvec, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, IC, in_delDT, out_delDT, e1, e2, e3, Ts);
+[Time_pred_SP, YSP] = SmithPredictor(sysDT, tvec, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 [Time_pred_KP, YKP, P] = KalmanPredictor(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 [Time_pred_SP2, YSP2] = SmithPredictorNEW(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end),Input_delayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 
@@ -318,12 +318,12 @@ FF = @(x,u) [0, 0, 0,       1.0*x(8)*(sin(x(4))*sin(x(6)) + 1.0*cos(x(4))*cos(x(
  
 HH = @(x) eye(12);
 
-W = 0.01*eye(12); 
+W = 0.001*eye(12); 
 V = 1*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
 
 %%
 
-[TEKP, YEKP,] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, IC, in_delDT, out_delDT, Ts);
+[TEKP, YEKP,] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, ICdel, in_delDT, out_delDT, Ts);
 
 %%
 close all;

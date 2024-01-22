@@ -43,7 +43,7 @@ phi_noise_std = NF*.01; theta_noise_std = NF*.01; psi_noise_std = NF*.01;
 u_noise_std = NF*.1; v_noise_std = NF*.1; w_noise_std = NF*.1; 
 p_noise_std = NF*.01; q_noise_std = NF*.01; r_noise_std = NF*.01;
 
-W = 100*eye(9); V = diag([phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
+W = 0.01*eye(9); V = diag([phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
 
 deltaU = Input - [0;deEq;0];
 
@@ -102,6 +102,7 @@ for k = 1:length(Time)
         Sstar=S_pred;
         %Calculate the predicted output
         Y_pred(:, predictor_index) = eye(12)*[Sstar; deltaXhat_pred+Xss];
+        Y_pred(1, predictor_index)=Y_pred(1, predictor_index)-0;
         Time_pred(predictor_index) = Time(k);
         P(:,:,predictor_index) = P_pred;
         predictor_index = predictor_index + 1;
