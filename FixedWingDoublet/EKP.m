@@ -71,6 +71,7 @@ i=d1+d2-1;
         
         %This is where we will do prediction
             for j=1:i
+                
                 [xhat_pred,~]=EKF_prediction(xprev,Input(:,k-d1-d2+j),f,F,Ts,nRK);
                 
                 xprev=xhat_pred;
@@ -85,6 +86,10 @@ i=d1+d2-1;
         end
         
     end
-
+num = 5;
+figure
+plot(Time, y(num,:), 'k-', Time, yhat(num,:), 'r--')
+title('Plot')
+legend('Measurement', 'Estimate')
 
 end

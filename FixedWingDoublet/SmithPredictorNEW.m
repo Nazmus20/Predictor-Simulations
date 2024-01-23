@@ -47,6 +47,7 @@ Time_pred=zeros(1,kmax-d2-d1-1);
 for k=1:kmax
    if k-d2-d1-1>0
         uk=deltaU(:,k-d2-d1-1);
+        el=k-d1-d2-1; %"actual index"
         %One step propagation (delayed)
         %Kinematic
         phi = xk(1) + Xss(1); theta = xk(2) + Xss(2); psi = xk(3) + Xss(3); 
@@ -58,7 +59,7 @@ for k=1:kmax
         xkp1=sysDT.A*xk + sysDT.B*uk;
         
         %Delayed output
-        yhatkmd2=eye(9)*[xkp1+Xss];
+        yhatkmd2(:,el)=eye(9)*[xkp1+Xss];
         
         %Update for next step
         xk=xkp1;
@@ -91,14 +92,22 @@ for k=1:kmax
         yhatkpd1=eye(9)*[xpred + Xss];
         Sstar=Spred;
         %Delayed measurement
-        ykmd2=Measurement(4:12,k);
+        ykmd2(:,el)=Measurement(4:12,k);
         
-        el=k-d1-d2-1; %"actual index" 
-        Y_pred(:,el)=[Sstar; ykmd2 + (yhatkpd1 - yhatkmd2)];
+         
+        Y_pred(:,el)=[Sstar; ykmd2(:,el) + (yhatkpd1 - yhatkmd2(:,el))];
         Time_pred(el)=Time(k);
    end
    
     
 end
+% num = 2;
+% figure
+% plot(Time_pred, ykmd2(num,:), 'k-', Time_pred, yhatkmd2(num,:), 'r--')
+% title('Plot')
+% legend('Measurement', 'Estimate')
 
+% figure
+% plot(Time_pred, deltaYtilde(num,:))
+% title('Innovation')
 end

@@ -107,6 +107,15 @@ for k = 1:length(Time)
         predictor_index = predictor_index + 1;
     end        
 end
+% num = 8;
+% figure
+% plot(Time, delta_measurement(num,:), 'k-', Time_pred, deltaYhat(num,:), 'r--')
+% title('Plot')
+% legend('Measurement', 'Estimate')
+% 
+% figure
+% plot(Time_pred, deltaYtilde(num,:))
+% title('Innovation')
 
 
 

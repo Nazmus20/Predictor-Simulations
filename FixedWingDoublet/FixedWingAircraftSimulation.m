@@ -124,7 +124,7 @@ if strcmp('none',Maneuver)
 
 elseif strcmp('doublet',Maneuver)
     %Doublet start time (in sec), amplitude (in rad), and duration (in sec)
-    tstart = 5; doubletAmp = 20*pi/180; duration = 2; tmaneuver=tvec; 
+    tstart = 5; doubletAmp = 17*pi/180; duration = 2; tmaneuver=tvec; 
     for n=1:length(tvec)
         if tvec(n) >= tstart && tvec(n) < tstart+duration 
             de_vec(n) = deEq + doubletAmp; %rad
@@ -267,7 +267,7 @@ idx = find(tvec==1.0);
 t_vector = tvec;
 
 %Initial condition at t = in_del. Because the states are at this time step
-ICdel = yNLund(:, in_delDT+1);
+ICdel = yNLund(:, 1);
 
 %%Predictor
 [Time_pred_SP, YSP] = SmithPredictor(sysDT, tvec, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, IC, in_delDT, out_delDT, e1, e2, e3, Ts);
@@ -326,11 +326,25 @@ V = 1*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; phi_noise_std^2;theta_n
 [TEKP, YEKP,] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, IC, in_delDT, out_delDT, Ts);
 
 %%
-close all;
+% close all;
+% figure
+% nplot=1;
+% plot(tvec, del_actual_output_NL(nplot,:), 'r+', tvec, yNLund(nplot,:), 'k-', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', Time_pred_SP2, YSP2(nplot,:), 'g--', TEKP, YEKP(nplot,:), 'm--')
+% legend('Act' , 'Undelayed measurement', 'YSP', 'YKP', 'YSP2','YEKP')
+
+%close all;
 figure
-nplot=1;
-plot(tvec, del_actual_output_NL(nplot,:), 'r+', tvec, yNLund(nplot,:), 'k-', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', Time_pred_SP2, YSP2(nplot,:), 'g--', TEKP, YEKP(nplot,:), 'm--')
-legend('Act' , 'Undelayed measurement', 'YSP', 'YKP', 'YSP2','YEKP')
+nplot=5;
+label_vec = {'Inertial position, x (m)'; 'Inertial position, y (m)';
+    'Inertial position, z (m)'; 'Euler Angles, \phi (rad)'; 'Euler Angles, \theta (rad)';
+    'Euler Angles, \psi (rad)'; 'Body Velocity, u (m/s)'; 'Body Velocity, v (m/s)';
+    'Body Velocity, w (m/s)'; 'Body Angular Velocity, p (rad/s)'; 
+    'Body Angular Velocity, q (rad/s)'; 'Body Angular Velocity, r (rad/s)'};
+plot(tvec, yNLund(nplot,:), 'k', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', TEKP, YEKP(nplot,:), 'g--', 'LineWidth', 2)
+legend('Undelayed', 'SP', 'KP', 'EKP')
+xlabel('Time, t (s)')
+ylabel(label_vec{nplot})
+
 
 %{
 figure
