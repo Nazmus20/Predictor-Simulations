@@ -354,6 +354,31 @@ xlabel('Time, t (s)')
 ylabel(label_vec{nplot})
 
 
+%Create a struct to save the parameters
+data.Ts = Ts; %Save the sampling time
+data.d1 = in_del; %Save the input delay
+data.d2 = out_del; %Save the output delay
+data.undelayed_measurement = yNLund;
+data.total_time = tvec;
+data.SP_time = Time_pred_SP2;
+data.SP_output = YSP2;
+data.KP_time = Time_pred_KP;
+data.KP_output = YKP;
+data.EKP_time = TEKP;
+data.EKP_output = YEKP;
+data.W = W; %Save the Process noise covariance
+data.V = V; %Save the measurement noise covariance
+data.noise_factor = NF; %Save the noise factor multiplying "V"
+
+%%
+iter = 10;
+
+iter_str = int2str(iter);
+
+filename = 'data_';
+
+filename = strcat(filename, iter_str)
+save(filename, 'data');
 %{
 figure
 plot(tvec, yNLund(1,:), 'k-', Time_pred_KP, YKP(1,:), 'b--')
