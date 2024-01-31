@@ -15,6 +15,7 @@ function [Time_pred, Y_pred]=EKP(Time, Measurement, Input, f, F, h, H, W, V, IC,
 % d1 is the input delay steps
 % d2 is the output delay steps
 
+global XdEq YdEq
 
 %Initialize data arrays
 nRK=20;
@@ -29,7 +30,7 @@ y = zeros(sz_out,kmax);
 yhat = y;
 Pm = zeros(sz,sz,kmax);
 Pp = Pm;
-x0=IC-[48;0;0;0;0;0;0;0;0;0;0;0];
+x0=IC;
 
 %This is the index for both delays -1
 i=d1+d2-1;
@@ -80,7 +81,7 @@ i=d1+d2-1;
         P0=Pp(:,:,k+1);
         x0=xp(:,k+1);
         el=k-d1-d2-1; %"actual index"
-        Y_pred(:,el)=feval(h, xprev, Input(:, k-d1-d2+i));
+        Y_pred(:,el)=feval(h, xprev, Input(:, k-d1-d2+i))-[XdEq*d1*Ts; YdEq*d1*Ts; zeros(10,1)];
         Time_pred(el)=Time(k);
         
         end

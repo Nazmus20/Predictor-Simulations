@@ -11,8 +11,8 @@ global e1 e2 e3 m rho g Inertia b c S ...
     Cmalpha Cmq Cmde Cm0 ...
     Cybeta Cyp Cyr Cyda Cydr Cy0 ...
     Clbeta Clp Clda Clr Cldr Cl0...
-    Cnbeta Cnr Cnda Cndr Cnp Cn0...
-    drpsEq PropDia nProp etaProp VEq deEq thetaEq
+    Cnbeta Cnr Cnda Cndr Cnp Cn0... 
+    drpsEq PropDia nProp etaProp VEq deEq thetaEq 
     
 % Basis vectors
 e1=[1;0;0;];
@@ -322,7 +322,15 @@ W = 0.01*eye(12);
 V = 1*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
 
 %%
-
+global XdEq YdEq
+vEq=[VEq; 0; 0;];
+phieq=0;
+psieq=0;
+thetaeq=0;
+RIBEq=expm(psieq*hat(e3))*expm(thetaeq*hat(e2))*expm(phieq*hat(e1));
+XDotEq=RIBEq*vEq;
+XdEq=XDotEq(1);
+YdEq=XDotEq(2);
 [TEKP, YEKP,] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, IC, in_delDT, out_delDT, Ts);
 
 %%
@@ -334,7 +342,7 @@ V = 1*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; phi_noise_std^2;theta_n
 
 %close all;
 figure
-nplot=5;
+nplot=1;
 label_vec = {'Inertial position, x (m)'; 'Inertial position, y (m)';
     'Inertial position, z (m)'; 'Euler Angles, \phi (rad)'; 'Euler Angles, \theta (rad)';
     'Euler Angles, \psi (rad)'; 'Body Velocity, u (m/s)'; 'Body Velocity, v (m/s)';
