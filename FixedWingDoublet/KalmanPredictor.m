@@ -1,5 +1,5 @@
-function [Time_pred, Y_pred, P] = ...
-    KalmanPredictor(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, IC, in_delDT, out_delDT, e1, e2, e3, Ts)
+function [Time_pred, Y_pred] = ...
+    KalmanPredictor(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, WW, VV, IC, in_delDT, out_delDT, e1, e2, e3, Ts)
 
 % SmithPredictor.m
 %
@@ -38,12 +38,7 @@ Xss = [phiss; thetass; psiss; uss;vss;wss; pss;qss;rss];
 Shat(:,1) = IC(1:3); deltaXhatPlus(:,1) = IC(4:12) - Xss;
 Pplus(:,:,1) = eye(9);
 
-NF=1;
-phi_noise_std = NF*.01; theta_noise_std = NF*.01; psi_noise_std = NF*.01; 
-u_noise_std = NF*.1; v_noise_std = NF*.1; w_noise_std = NF*.1; 
-p_noise_std = NF*.01; q_noise_std = NF*.01; r_noise_std = NF*.01;
-
-W = 100*eye(9); V = diag([phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
+W = WW(4:12, 4:12); V = VV(4:12, 4:12); %Not counting the covariance for x, y, z states
 
 deltaU = Input - [0;deEq;0];
 
@@ -82,11 +77,12 @@ for k = 1:length(Time)
         %deltaXhatPlus(:,actual_index+1) and Pplus(:, actual_index+1) "in_delDT+out_delDT" times
         deltaXhat_prev = deltaXhatPlus(:,predictor_index+1);
                     
-        P_prev = Pplus(:,:,predictor_index+1); S_prev = Shat(:,predictor_index+1); RIB_prev=RIB; u_prev=u; v_prev=v; w_prev=w;
+        %P_prev = Pplus(:,:,predictor_index+1); 
+        S_prev = Shat(:,predictor_index+1); RIB_prev=RIB; u_prev=u; v_prev=v; w_prev=w;
         
         for j = 0:i
             deltaXhat_pred = sysDT.A*deltaXhat_prev + sysDT.B*deltaU(:, k-in_delDT-out_delDT+j);
-            P_pred = sysDT.A*P_prev*sysDT.A' + W;
+            %P_pred = sysDT.A*P_prev*sysDT.A' + W;
             %Calculating the positions using nonlinear equations
             phi_pred = deltaXhat_pred(1)+Xss(1); theta_pred = deltaXhat_pred(2)+Xss(2); 
             psi_pred = deltaXhat_pred(3)+Xss(3); u_pred = deltaXhat_pred(4)+Xss(4);
@@ -96,26 +92,15 @@ for k = 1:length(Time)
             
             S_pred = S_prev + RIB_prev*[u_prev;v_prev;w_prev]*Ts;
             
-            deltaXhat_prev = deltaXhat_pred; S_prev = S_pred; P_prev = P_pred; RIB_prev=RIB_pred; u_prev=u_pred; v_prev=v_pred; w_prev=w_pred; 
+            deltaXhat_prev = deltaXhat_pred; S_prev = S_pred; RIB_prev=RIB_pred; u_prev=u_pred; v_prev=v_pred; w_prev=w_pred; 
+            %P_prev = P_pred;
         end
-        %Sstar=Measurement(1:3,k) + S_pred - Shat(:,predictor_index+1);
+        
         Sstar=S_pred;
         %Calculate the predicted output
         Y_pred(:, predictor_index) = eye(12)*[Sstar; deltaXhat_pred+Xss];
         Time_pred(predictor_index) = Time(k);
-        P(:,:,predictor_index) = P_pred;
+        %P(:,:,predictor_index) = P_pred;
         predictor_index = predictor_index + 1;
     end        
 end
-% num = 8;
-% figure
-% plot(Time, delta_measurement(num,:), 'k-', Time_pred, deltaYhat(num,:), 'r--')
-% title('Plot')
-% legend('Measurement', 'Estimate')
-% 
-% figure
-% plot(Time_pred, deltaYtilde(num,:))
-% title('Innovation')
-
-
-

@@ -18,7 +18,7 @@ function [Time_pred, Y_pred]=EKP(Time, Measurement, Input, f, F, h, H, W, V, IC,
 global XdEq YdEq
 
 %Initialize data arrays
-nRK=20;
+nRK=10;
 kmax=length(Time);
 sz=12;
 sz_out=12;
@@ -57,7 +57,6 @@ i=d1+d2-1;
 
         %Innovation
         nu=y(:,k+1)-yhat(:,k+1);
-        nu_all(:,k+1)=y(:,k+1)-yhat(:,k+1);
 
 
         %Gain matrix
@@ -68,7 +67,7 @@ i=d1+d2-1;
         xp(:,k+1)=xm(:,k+1)+K(:,:,k)*(nu);
         Pp(:,:,k+1)=(eye(sz)-K(:,:,k)*Hmat)*Pm(:,:,k+1);
 
-        xprev=xp(:,k+1);
+        xprev=xp(:,k+1)-[XdEq*d1*Ts; YdEq*d1*Ts; zeros(10,1)];
         
         %This is where we will do prediction
             for j=1:i
@@ -81,16 +80,8 @@ i=d1+d2-1;
         P0=Pp(:,:,k+1);
         x0=xp(:,k+1);
         el=k-d1-d2-1; %"actual index"
-        Y_pred(:,el)=feval(h, xprev, Input(:, k-d1-d2+i))-[XdEq*d1*Ts; YdEq*d1*Ts; zeros(10,1)];
+        Y_pred(:,el)=feval(h, xprev, Input(:, k-d1-d2+i));        
         Time_pred(el)=Time(k);
-        
-        end
-        
+        end 
     end
-num = 5;
-figure
-plot(Time, y(num,:), 'k-', Time, yhat(num,:), 'r--')
-title('Plot')
-legend('Measurement', 'Estimate')
-
 end

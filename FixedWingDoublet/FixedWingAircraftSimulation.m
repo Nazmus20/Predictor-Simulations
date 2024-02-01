@@ -84,13 +84,13 @@ IC=[s0;Theta0;v0;omega0]; %Initial condition vector for ODE45
 %To silmulate accurately, use high precision (small Ts) timestep for
 %ode45()
 tf=30; %Final time, sec
-Ts=.1; %Sampling time, sec
+Ts=.01; %Sampling time, sec
 tvec=[0:Ts:tf]'; %High precision time vector, sec
 
 in_del = 1; %Delay between command and system
 out_del = 1; %Delays between system and groundstation
-in_delDT = 1/Ts; %Delay between command and system in DT
-out_delDT = 1/Ts; %Delays between system and groundstation in DT
+in_delDT = in_del/Ts; %Delay between command and system in DT
+out_delDT = out_del/Ts; %Delays between system and groundstation in DT
 %% Linearization around the equilibrium, obtained from "EOMs.nb"
 %Linearization of 9-states delta_X = [phi;theta;psi;u;v;w;p;q;r]; and
 %delta_U = [da; de; dr]
@@ -134,7 +134,7 @@ elseif strcmp('doublet',Maneuver)
             de_vec(n) = deEq;
         end
     end
-    de_vec_del = addDelay(tvec, de_vec, in_del+Ts, deEq);
+    de_vec_del = addDelay(tvec, de_vec, in_del, deEq);
 end
 
 %% ODE solver 
@@ -229,6 +229,13 @@ r_noise = r_noise_std * randn(1, numb);
 noise_vec = [x_noise; y_noise; z_noise; phi_noise; theta_noise; psi_noise;
     u_noise; v_noise; w_noise; p_noise; q_noise; r_noise];
 
+%Process and measurement noise covariances
+W = 0.01*eye(12); 
+V = NF*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; ...
+    phi_noise_std^2; theta_noise_std^2; psi_noise_std^2; ...
+    u_noise_std^2; v_noise_std^2; w_noise_std^2; p_noise_std^2; ...
+    q_noise_std^2; r_noise_std^2]);
+
 %Add noise to the actual states
 actual_output_L = yL + noise_vec(:, out_delDT + 1 : end - in_delDT);
 actual_output_NL = yNL + noise_vec(:, out_delDT + 1 : end - in_delDT);
@@ -254,28 +261,33 @@ xlabel('Time, t (s)')
 ylabel('Height, z (m)')
 
 %Create the 3x1 input vector
-Input_delayed = [zeros(size(de_vec_del)); de_vec_del; zeros(size(de_vec_del))];
 Input_undelayed = [zeros(size(de_vec)); de_vec; zeros(size(de_vec))];
 %Input_undelayed is the undelayed input vector which is sent to the
 %predictor. The predictor internally acts upon the delayed and the
 %undelayed inputs, so we don't need to send the delayed input separately.
 %However, the delayed input was used in the ODE45 to get the UAV motion
 
-%Start the predictors after 1 sec
-idx = find(tvec==1.0);
-
 t_vector = tvec;
 
 %Initial condition at t = in_del. Because the states are at this time step
-ICdel = yNLund(:, 1);
+ICdel = del_actual_output_NL(:, 1);
+
+global XdEq YdEq
+vEq=[VEq; 0; 0;];
+phieq=0;
+psieq=0;
+thetaeq=0;
+RIBEq=expm(psieq*hat(e3))*expm(thetaeq*hat(e2))*expm(phieq*hat(e1));
+XDotEq=RIBEq*vEq;
+XdEq=XDotEq(1);
+YdEq=XDotEq(2);
 
 %%Predictor
-[Time_pred_SP, YSP] = SmithPredictor(sysDT, tvec, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, IC, in_delDT, out_delDT, e1, e2, e3, Ts);
-[Time_pred_KP, YKP, P] = KalmanPredictor(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
-[Time_pred_SP2, YSP2] = SmithPredictorNEW(sysDT, t_vector, del_actual_output_NL(:,1:end), Input_undelayed(:,1:end),Input_delayed(:,1:end), VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
+[Time_pred_SP, YSP] = SmithPredictor(sysDT, t_vector, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
+[Time_pred_KP, YKP] = KalmanPredictor(sysDT, t_vector, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, W, V, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
+%[Time_pred_SP2, YSP2] = SmithPredictorNEW(sysDT, t_vector, del_actual_output_NL, Input_undelayed, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts);
 
 %% Needed for EKP
-
 ff = @(x,u) [x(9)*(sin(x(4))*sin(x(6)) + cos(x(4))*cos(x(6))*sin(x(5))) - 1.0*x(8)*(cos(x(4))*sin(x(6)) - 1.0*cos(x(6))*sin(x(4))*sin(x(5))) + x(7)*cos(x(5))*cos(x(6));
     x(8)*(cos(x(4))*cos(x(6)) + sin(x(4))*sin(x(5))*sin(x(6))) - 1.0*x(9)*(cos(x(6))*sin(x(4)) - 1.0*cos(x(4))*sin(x(5))*sin(x(6))) + x(7)*cos(x(5))*sin(x(6));
     x(9)*cos(x(4))*cos(x(5)) - 1.0*x(7)*sin(x(5)) + x(8)*cos(x(5))*sin(x(4));
@@ -317,21 +329,8 @@ FF = @(x,u) [0, 0, 0,       1.0*x(8)*(sin(x(4))*sin(x(6)) + 1.0*cos(x(4))*cos(x(
              x(12)]; 
  
 HH = @(x) eye(12);
-
-W = 0.01*eye(12); 
-V = 1*diag([x_noise_std^2; y_noise_std^2; z_noise_std^2; phi_noise_std^2;theta_noise_std^2;psi_noise_std^2;u_noise_std^2; v_noise_std^2;w_noise_std^2;p_noise_std^2;q_noise_std^2;r_noise_std^2]);
-
 %%
-global XdEq YdEq
-vEq=[VEq; 0; 0;];
-phieq=0;
-psieq=0;
-thetaeq=0;
-RIBEq=expm(psieq*hat(e3))*expm(thetaeq*hat(e2))*expm(phieq*hat(e1));
-XDotEq=RIBEq*vEq;
-XdEq=XDotEq(1);
-YdEq=XDotEq(2);
-[TEKP, YEKP,] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, IC, in_delDT, out_delDT, Ts);
+[TEKP, YEKP] = EKP(tvec, del_actual_output_NL, Input_undelayed, ff, FF, hh, HH, W, V, ICdel, in_delDT, out_delDT, Ts);
 
 %%
 % close all;
@@ -349,7 +348,7 @@ label_vec = {'Inertial position, x (m)'; 'Inertial position, y (m)';
     'Body Velocity, w (m/s)'; 'Body Angular Velocity, p (rad/s)'; 
     'Body Angular Velocity, q (rad/s)'; 'Body Angular Velocity, r (rad/s)'};
 plot(tvec, yNLund(nplot,:), 'k', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', TEKP, YEKP(nplot,:), 'g--', 'LineWidth', 2)
-legend('Undelayed', 'SP', 'KP', 'EKP')
+legend('Undelayed','SP', 'KP', 'EKP')
 xlabel('Time, t (s)')
 ylabel(label_vec{nplot})
 
@@ -369,16 +368,9 @@ data.EKP_output = YEKP;
 data.W = W; %Save the Process noise covariance
 data.V = V; %Save the measurement noise covariance
 data.noise_factor = NF; %Save the noise factor multiplying "V"
+data.doublet_amplitude = doubletAmp; %Save the pitch doublet amplitude
 
-%%
-iter = 10;
 
-iter_str = int2str(iter);
-
-filename = 'data_';
-
-filename = strcat(filename, iter_str)
-save(filename, 'data');
 %{
 figure
 plot(tvec, yNLund(1,:), 'k-', Time_pred_KP, YKP(1,:), 'b--')

@@ -161,7 +161,7 @@ YdEq=XDotEq(2);
 %ode45()
 for iter = 1:10
 tf=30; %Final time, sec
-Ts=.01; %Sampling time, sec
+Ts=.1; %Sampling time, sec
 tvec=[0:Ts:tf]'; %High precision time vector, sec
 
 in_del = 1; %Delay between command and system
@@ -180,7 +180,7 @@ if strcmp('none',Maneuver)
 
 elseif strcmp('doublet',Maneuver)
     %Doublet start time (in sec), amplitude (in rad), and duration (in sec)
-    tstart = 5; doubletAmp = 2*pi/180; duration = 2; tmaneuver=tvec; 
+    tstart = 5; doubletAmp = 16*pi/180; duration = 2; tmaneuver=tvec; 
     for n=1:length(tvec)
         if tvec(n) >= tstart && tvec(n) < tstart+duration 
             de_vec(n) = deEq + doubletAmp; %rad
@@ -209,7 +209,7 @@ yL_del = addDelay(tvec, yL, out_del, Cfull*IC);
 %% Noise
 %Add Gaussian white noise in the measurement with zero mean and some
 %variance. The covariances are assumed to be zero.
-NF = 10; %factor to control noise values in all the states 
+NF = 1; %factor to control noise values in all the states 
 x_noise_std = NF*.01; y_noise_std = NF*.01; z_noise_std = NF*.01; 
 phi_noise_std = NF*.01; theta_noise_std = NF*.01; psi_noise_std = NF*.01; 
 u_noise_std = NF*.1; v_noise_std = NF*.1; w_noise_std = NF*.1; 
@@ -285,7 +285,7 @@ data.EKP_output = YEKP;
 data.W = W; %Save the Process noise covariance
 data.V = V; %Save the measurement noise covariance
 data.noise_factor = NF; %Save the noise factor multiplying "V"
-data.doublet_amplitude = doubletAmp*180/pi; %Save the pitch doublet amplitude
+data.doublet_amplitude = doubletAmp*180/; %Save the pitch doublet amplitude
 
 %% Save data
 

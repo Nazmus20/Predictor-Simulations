@@ -1,10 +1,7 @@
 function [Time_pred, Y_pred] = ...
-    SmithPredictor(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, ICdel, in_delDT, out_delDT, e1, e2, e3, Ts)
+    SmithPredictor(sysDT, Time, Measurement, Input, VEq, thetaEq, deEq, ICdel, d1, d2, e1, e2, e3, Ts)
 
-% SmithPredictor.m
-%
-% Smith Predictor simulation
-
+%SP with [x, y,z] as integrated states
 %%%INPUTS%%%
 % sysCT: The continuous time (CT) system of the UAV
 % Klqr: The LQR controller gain
@@ -12,9 +9,9 @@ function [Time_pred, Y_pred] = ...
 % x_vec0: Initial states for the simulation to start. The UAV is assumed to
 % start from its steady-states
 % ref_vec: The actual reference vector without any delay
-% in_delDT: The value of the delay in the outgoing signal from the
+% d1: The value of the delay in the outgoing signal from the
 % groundstation to the UAV, seconds
-% out_delDT: The value of the delay in the incoming signal from the UAV to
+% d2: The value of the delay in the incoming signal from the UAV to
 % the groundstation, seconds
 % uSS: Steady state input values. As the simulation starts from
 % steady-state these are also the initial values of the input thrusts and
@@ -24,6 +21,8 @@ function [Time_pred, Y_pred] = ...
 
 %%%OUTPUTS%%%
 % Y_pred: The output of the Smith's Predictor
+
+global XdEq YdEq
 
 %%% EQUATIONS OF MOTION %%%
 %Steady-state values
@@ -35,54 +34,69 @@ phiss = 0; thetass = thetaEq; psiss = 0; pss = 0; qss = 0; rss = 0;
 %%% EOMS IN DISCRETE TIME %%%
 %Initial states
 Xss = [phiss; thetass; psiss; uss;vss;wss; pss;qss;rss];
-Shat(:, 1) = ICdel(1:3); deltaXdel(:,1) = ICdel(4:12) - Xss;
+Sk = ICdel(1:3); 
+xk = ICdel(4:12) - Xss;
 
 deltaU = Input - [0;deEq;0];
 
-i = in_delDT + out_delDT - 1;
+kmax=length(Time);
 
-predictor_index = 1; %Equivalent to l=k-d2; so the initial conditions start at l=k-d2 which is different from ode45 ICs
+%Initialize state and output
+Y_pred=zeros(12,kmax-d2-d1-1);
+Time_pred=zeros(1,kmax-d2-d1-1);
 
-for k = 1:length(Time)-1
-    if k - in_delDT - out_delDT - 1 > 0
-        %Delayed states one-step propagation
-        deltaXdel(:, predictor_index + 1) = sysDT.A * deltaXdel(:, predictor_index) + sysDT.B * deltaU(:, k - in_delDT - out_delDT - 1);
-        %Delayed output, y_hat_del
-        Y_hat_del(:, predictor_index) = sysDT.C * (deltaXdel(:, predictor_index) + Xss);
-        
-        %Calculating the next step positions using nonlinear equations and
-        %delayed states
-        phi = deltaXdel(1, predictor_index) + Xss(1); theta = deltaXdel(2, predictor_index) + Xss(2); psi = deltaXdel(3, predictor_index) + Xss(3); 
-        u = deltaXdel(4, predictor_index) + Xss(4); v = deltaXdel(5, predictor_index) + Xss(5); w = deltaXdel(6, predictor_index) + Xss(6);
+%This is the index for both delays -1
+i=d1+d2;
+
+for k=1:kmax
+   if k-d2-d1-1>0
+        uk=deltaU(:,k-d2-d1-1);
+        el=k-d1-d2-1; %"actual index"
+        %One step propagation (delayed)
+        %Kinematic
+        phi = xk(1) + Xss(1); theta = xk(2) + Xss(2); psi = xk(3) + Xss(3); 
+        u = xk(4) + Xss(4); v = xk(5) + Xss(5); w = xk(6) + Xss(6);
         RIB = expm(psi*hat(e3))*expm(theta*hat(e2))*expm(phi*hat(e1));
-        Shat(:, predictor_index + 1) = Shat(:, predictor_index) + RIB * [u; v; w] * Ts;
-
-        S_prev = Shat(:, predictor_index + 1); RIB_prev = RIB; u_prev = u; v_prev = v; w_prev = w;
-        deltaXhat_prev = deltaXdel(:, predictor_index + 1);
-        for j = 0 : i
-            deltaXhat_pred = sysDT.A * deltaXhat_prev + sysDT.B * deltaU(:, k - in_delDT - out_delDT + j);
-            
-            %Calculating the positions using nonlinear equations
-            phi_pred = deltaXhat_pred(1) + Xss(1); theta_pred = deltaXhat_pred(2) + Xss(2); 
-            psi_pred = deltaXhat_pred(3) + Xss(3); u_pred = deltaXhat_pred(4) + Xss(4);
-            v_pred = deltaXhat_pred(5) + Xss(5); w_pred = deltaXhat_pred(6) + Xss(6);
-            
-            RIB_pred = expm(psi_pred * hat(e3)) * expm(theta_pred * hat(e2)) * expm(phi_pred * hat(e1));
-            
-            S_pred = S_prev + RIB_prev * [u_prev; v_prev; w_prev] * Ts;
-            
-            deltaXhat_prev = deltaXhat_pred; S_prev = S_pred;
-            RIB_prev = RIB_pred; u_prev = u_pred; v_prev = v_pred; w_prev = w_pred; 
+        Skp1=Sk + RIB*[u;v;w;]*Ts;
+        
+        %Dynamics
+        xkp1=sysDT.A*xk + sysDT.B*uk;
+        
+        %Delayed output
+        yhatkmd2(:,el)=eye(9)*[xkp1+Xss];
+        
+        %Update for next step
+        xk=xkp1;
+        Sk=Skp1;
+        
+        % Finding undelayed states
+        xprev=xkp1;
+        Sprev=Skp1;
+        for j=1:i
+           %Kinematic propagation
+           phiprev = xprev(1) + Xss(1); thetaprev = xprev(2) + Xss(2); psiprev = xprev(3) + Xss(3); 
+           uprev = xprev(4) + Xss(4); vprev = xprev(5) + Xss(5); wprev = xprev(6) + Xss(6);
+           RIBprev = expm(psiprev*hat(e3))*expm(thetaprev*hat(e2))*expm(phiprev*hat(e1));
+           
+           Spred=Sprev + RIBprev*[uprev;vprev;wprev]*Ts;
+           
+           %Dyanmic propagation
+           ukpi=deltaU(:,k-d1-d2+j); 
+           xpred=sysDT.A*xprev+sysDT.B*ukpi;
+           
+           %Update for next step
+           Sprev = Spred;
+           xprev=xpred;
         end
-        
-        %Undelayed Output
-        Y_hat_und(:, predictor_index) = sysDT.C * (deltaXhat_pred  + Xss);
-        
-        %Calculate the predicted output
-        Y_pred(:, predictor_index) = [S_pred; Measurement(4:12, k) + Y_hat_und(:,predictor_index) - Y_hat_del(:,predictor_index)]; %Measurement at k is already delayed
-        Time_pred(predictor_index) = Time(k);
-        predictor_index = predictor_index + 1;
-    end
+       
+        %Undelayed output
+        yhatkpd1=eye(9)*[xpred + Xss];
+        Sstar=Spred;
+        %Delayed measurement
+        ykmd2(:,el)=Measurement(4:12,k); 
+         
+        Y_pred(:,el)=[Sstar; ykmd2(:,el) + (yhatkpd1 - yhatkmd2(:,el))];
+        Time_pred(el)=Time(k);
+   end    
 end
-
-
+end
