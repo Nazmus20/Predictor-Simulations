@@ -1,0 +1,13 @@
+T1=load('Case1.mat');
+T2=load('Case2.mat');
+T3=load('Case3.mat');
+T25=load('Case25.mat');
+T26=load('Case26.mat');
+T27=load('Case27.mat');
+
+FinalResults=[T1.Table; 
+              T2.Table;
+              T3.Table;
+              T25.Table;
+              T26.Table;
+              T27.Table];

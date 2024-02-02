@@ -161,7 +161,7 @@ YdEq=XDotEq(2);
 %ode45()
 for iter = 1:10
 tf=30; %Final time, sec
-Ts=.01; %Sampling time, sec
+Ts=.1; %Sampling time, sec
 tvec=[0:Ts:tf]'; %High precision time vector, sec
 
 in_del = 1; %Delay between command and system
