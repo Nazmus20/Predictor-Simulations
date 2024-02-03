@@ -84,11 +84,11 @@ IC=[s0;Theta0;v0;omega0]; %Initial condition vector for ODE45
 %To silmulate accurately, use high precision (small Ts) timestep for
 %ode45()
 tf=30; %Final time, sec
-Ts=.01; %Sampling time, sec
+Ts=.1; %Sampling time, sec
 tvec=[0:Ts:tf]'; %High precision time vector, sec
 
-in_del = 1; %Delay between command and system
-out_del = 1; %Delays between system and groundstation
+in_del = 2; %Delay between command and system
+out_del = 2; %Delays between system and groundstation
 in_delDT = in_del/Ts; %Delay between command and system in DT
 out_delDT = out_del/Ts; %Delays between system and groundstation in DT
 %% Linearization around the equilibrium, obtained from "EOMs.nb"
@@ -124,7 +124,7 @@ if strcmp('none',Maneuver)
 
 elseif strcmp('doublet',Maneuver)
     %Doublet start time (in sec), amplitude (in rad), and duration (in sec)
-    tstart = 5; doubletAmp = 17*pi/180; duration = 2; tmaneuver=tvec; 
+    tstart = 5; doubletAmp = 16*pi/180; duration = 2; tmaneuver=tvec; 
     for n=1:length(tvec)
         if tvec(n) >= tstart && tvec(n) < tstart+duration 
             de_vec(n) = deEq + doubletAmp; %rad
@@ -204,7 +204,7 @@ legend('\thetaLund', '\thetaNLund','\thetaNL', '\thetaNL_del', '\thetaL', '\thet
 
 %Add Gaussian white noise in the measurement with zero mean and some
 %variance. The covariances are assumed to be zero.
-NF = 1; %factor to control noise values in all the states 
+NF = 10; %factor to control noise values in all the states 
 x_noise_std = NF*.01; y_noise_std = NF*.01; z_noise_std = NF*.01; 
 phi_noise_std = NF*.01; theta_noise_std = NF*.01; psi_noise_std = NF*.01; 
 u_noise_std = NF*.1; v_noise_std = NF*.1; w_noise_std = NF*.1; 
@@ -341,7 +341,7 @@ HH = @(x) eye(12);
 
 %close all;
 figure
-nplot=1;
+nplot=11;
 label_vec = {'Inertial position, x (m)'; 'Inertial position, y (m)';
     'Inertial position, z (m)'; 'Euler Angles, \phi (rad)'; 'Euler Angles, \theta (rad)';
     'Euler Angles, \psi (rad)'; 'Body Velocity, u (m/s)'; 'Body Velocity, v (m/s)';

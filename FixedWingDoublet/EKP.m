@@ -18,7 +18,7 @@ function [Time_pred, Y_pred]=EKP(Time, Measurement, Input, f, F, h, H, W, V, IC,
 global XdEq YdEq
 
 %Initialize data arrays
-nRK=10;
+nRK=20;
 kmax=length(Time);
 sz=12;
 sz_out=12;
