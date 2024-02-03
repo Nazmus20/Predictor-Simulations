@@ -1,13 +1,14 @@
-T1=load('Case1.mat');
-T2=load('Case2.mat');
-T3=load('Case3.mat');
-T25=load('Case25.mat');
-T26=load('Case26.mat');
-T27=load('Case27.mat');
+clc
+clear all
 
-FinalResults=[T1.Table; 
-              T2.Table;
-              T3.Table;
-              T25.Table;
-              T26.Table;
-              T27.Table];
+T1=load('Case1.mat');
+
+T=T1.Table;
+
+for CaseNo=2:36
+   LoadTable=load(['Case',num2str(CaseNo),'.mat']);
+    T=[T;
+      LoadTable.Table];  
+end
+
+save('FinalResultsRMSE.mat', 'T')

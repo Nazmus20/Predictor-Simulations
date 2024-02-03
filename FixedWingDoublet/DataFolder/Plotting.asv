@@ -58,7 +58,7 @@ for j=1:12
 end
 
 %%
-Labels={'X, m', 'Y, m', 'Z, m', '\phi, deg', '\theta, deg', '\psi, deg', 'u, m/s', 'v, m/s', 'w, m/s', 'p, deg/s', 'q, deg/s', 'r, deg/s'};
+Labels={'X, m', 'Y, m', 'Z, m', '\Phi, deg', '\Theta, deg', '\Psi, deg', 'u, m/s', 'v, m/s', 'w, m/s', 'p, deg/s', 'q, deg/s', 'r, deg/s'};
 
 figure
 nplot=5;
@@ -77,7 +77,6 @@ for iter = 1:N
 %patch([t',fliplr(t')], [y(nplot,:) fliplr(avg_SP(nplot,:))], 'b')
 %alpha(0.1)
 legend('Actual','SP', 'KP', 'EKP','SP error')
-%ylim([-85 -50])
 %xlim([8 18])
 xlabel('Time, s')
 set(gca, 'FontSize',14)
