@@ -152,39 +152,41 @@ yL_del = addDelay(tvec, yL, out_del, Cfull*IC);
 
 
 figure
-plot(tvec, de_vec*180/pi, 'k-', tvec, de_vec_del*180/pi, 'k--')
-legend('\delta_e', 'Delayed \delta_{e}')
-ylabel('Elevator deflection, \delta_e (deg)')
-ylim([-25 20])
-xlabel('Time, t (s)')
+plot(tvec, de_vec*180/pi, 'k-', tvec, de_vec_del*180/pi, 'r--', 'LineWidth', 1.5)
+legend('$\delta_e$', 'Delayed $\delta_{e}$', 'Interpreter','latex')
+ylabel('Elevator deflection, $\delta_e$ (deg)', 'Interpreter','latex')
+ylim([-20 20])
+xlabel('Time, $t$ (s)', 'Interpreter','latex')
+set(gca,'FontSize',18)
+set(gcf,'Position',[100 100 800 650])
 
-figure
-plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-')
-legend('Undelayed', 'Input delay', 'Input+Output delay')
-xlabel('Time, t (s)')
-xlim([5, 15])
-ylabel('Inertial north position, X (m)')
-
-figure
-plot(tvec, yNLund(3,:), 'k-', tvec, yNL(3,:), 'r-', tvec, yNL_del(3,:), 'b-')
-legend('Undelayed', 'Input delay', 'Input+Output delay')
-xlabel('Time, t (s)')
-xlim([5, 15])
-ylabel('Inertial north position, X (m)')
-
-figure
-plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-')
-legend('Undelayed', 'Input delay', 'Input+Output delay')
-xlabel('Time, t (s)')
-xlim([5, 15])
-ylabel('Inertial north position, X (m)')
-
-figure
-plot(tvec, yNLund(3,:), 'k-', tvec, yNL(3,:), 'r-', tvec, yNL_del(3,:), 'b-')
-legend('Undelayed', 'Input delay', 'Input+Output delay')
-xlabel('Time, t (s)')
-xlim([5, 15])
-ylabel('Inertial north position, X (m)')
+% figure
+% plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-')
+% legend('Undelayed', 'Input delay', 'Input+Output delay')
+% xlabel('Time, t (s)')
+% xlim([5, 15])
+% ylabel('Inertial north position, X (m)')
+% 
+% figure
+% plot(tvec, yNLund(3,:), 'k-', tvec, yNL(3,:), 'r-', tvec, yNL_del(3,:), 'b-')
+% legend('Undelayed', 'Input delay', 'Input+Output delay')
+% xlabel('Time, t (s)')
+% xlim([5, 15])
+% ylabel('Inertial north position, X (m)')
+% 
+% figure
+% plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-')
+% legend('Undelayed', 'Input delay', 'Input+Output delay')
+% xlabel('Time, t (s)')
+% xlim([5, 15])
+% ylabel('Inertial north position, X (m)')
+% 
+% figure
+% plot(tvec, yNLund(3,:), 'k-', tvec, yNL(3,:), 'r-', tvec, yNL_del(3,:), 'b-')
+% legend('Undelayed', 'Input delay', 'Input+Output delay')
+% xlabel('Time, t (s)')
+% xlim([5, 15])
+% ylabel('Inertial north position, X (m)')
 
 %{
 figure
@@ -340,35 +342,35 @@ HH = @(x) eye(12);
 % legend('Act' , 'Undelayed measurement', 'YSP', 'YKP', 'YSP2','YEKP')
 
 %close all;
-figure
-nplot=11;
-label_vec = {'Inertial position, x (m)'; 'Inertial position, y (m)';
-    'Inertial position, z (m)'; 'Euler Angles, \phi (rad)'; 'Euler Angles, \theta (rad)';
-    'Euler Angles, \psi (rad)'; 'Body Velocity, u (m/s)'; 'Body Velocity, v (m/s)';
-    'Body Velocity, w (m/s)'; 'Body Angular Velocity, p (rad/s)'; 
-    'Body Angular Velocity, q (rad/s)'; 'Body Angular Velocity, r (rad/s)'};
-plot(tvec, yNLund(nplot,:), 'k', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', TEKP, YEKP(nplot,:), 'g--', 'LineWidth', 2)
-legend('Undelayed','SP', 'KP', 'EKP')
-xlabel('Time, t (s)')
-ylabel(label_vec{nplot})
-
-
-%Create a struct to save the parameters
-data.Ts = Ts; %Save the sampling time
-data.d1 = in_del; %Save the input delay
-data.d2 = out_del; %Save the output delay
-data.undelayed_measurement = yNLund;
-data.total_time = tvec;
-data.SP_time = Time_pred_SP2;
-data.SP_output = YSP2;
-data.KP_time = Time_pred_KP;
-data.KP_output = YKP;
-data.EKP_time = TEKP;
-data.EKP_output = YEKP;
-data.W = W; %Save the Process noise covariance
-data.V = V; %Save the measurement noise covariance
-data.noise_factor = NF; %Save the noise factor multiplying "V"
-data.doublet_amplitude = doubletAmp; %Save the pitch doublet amplitude
+% figure
+% nplot=11;
+% label_vec = {'Inertial position, x (m)'; 'Inertial position, y (m)';
+%     'Inertial position, z (m)'; 'Euler Angles, \phi (rad)'; 'Euler Angles, \theta (rad)';
+%     'Euler Angles, \psi (rad)'; 'Body Velocity, u (m/s)'; 'Body Velocity, v (m/s)';
+%     'Body Velocity, w (m/s)'; 'Body Angular Velocity, p (rad/s)'; 
+%     'Body Angular Velocity, q (rad/s)'; 'Body Angular Velocity, r (rad/s)'};
+% plot(tvec, yNLund(nplot,:), 'k', Time_pred_SP, YSP(nplot,:), 'r--', Time_pred_KP, YKP(nplot,:), 'b--', TEKP, YEKP(nplot,:), 'g--', 'LineWidth', 2)
+% legend('Undelayed','SP', 'KP', 'EKP')
+% xlabel('Time, t (s)')
+% ylabel(label_vec{nplot})
+% 
+% 
+% %Create a struct to save the parameters
+% data.Ts = Ts; %Save the sampling time
+% data.d1 = in_del; %Save the input delay
+% data.d2 = out_del; %Save the output delay
+% data.undelayed_measurement = yNLund;
+% data.total_time = tvec;
+% data.SP_time = Time_pred_SP2;
+% data.SP_output = YSP2;
+% data.KP_time = Time_pred_KP;
+% data.KP_output = YKP;
+% data.EKP_time = TEKP;
+% data.EKP_output = YEKP;
+% data.W = W; %Save the Process noise covariance
+% data.V = V; %Save the measurement noise covariance
+% data.noise_factor = NF; %Save the noise factor multiplying "V"
+% data.doublet_amplitude = doubletAmp; %Save the pitch doublet amplitude
 
 
 %{
@@ -552,3 +554,25 @@ legend('p NL','q NL', 'r NL', 'p L','q L', 'r L')
 xlabel('time, seconds')
 ylabel('Angular velocities, deg/s')
 %}
+%trajectory plot
+addpath('TrajectoryPlots')
+north=xNL(:,1);
+east=xNL(:,2);
+down=xNL(:,3);
+roll=xNL(:,4);
+pitch=xNL(:,5);
+yaw=xNL(:,6);
+scaleFactor=10;
+var=8;
+aircraft='cessna';
+figure(6)
+set(gca,'FontSize',18)
+grid on
+box on
+ylabel('North, (m)', 'Interpreter','latex'); 
+xlabel('East, (m)', 'Interpreter','latex');
+zlabel('Down, (m)', 'Interpreter','latex')
+trajectory(north,east,down,roll,pitch,yaw,scaleFactor,var,aircraft)
+ax = gca; ax.ZLim = [25 150]; ax.XLim = [-30 30];
+set(gcf,'Position',[100 100 800 650])
+set(gca, 'View', [23.6396 16.4041])
