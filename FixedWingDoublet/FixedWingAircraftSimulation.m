@@ -160,19 +160,20 @@ xlabel('Time, $t$ (s)', 'Interpreter','latex')
 set(gca,'FontSize',18)
 set(gcf,'Position',[100 100 800 650])
 
-% figure
-% plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-')
-% legend('Undelayed', 'Input delay', 'Input+Output delay')
-% xlabel('Time, t (s)')
-% xlim([5, 15])
-% ylabel('Inertial north position, X (m)')
-% 
-% figure
-% plot(tvec, yNLund(3,:), 'k-', tvec, yNL(3,:), 'r-', tvec, yNL_del(3,:), 'b-')
-% legend('Undelayed', 'Input delay', 'Input+Output delay')
-% xlabel('Time, t (s)')
-% xlim([5, 15])
-% ylabel('Inertial north position, X (m)')
+figure
+set(gcf,'Position',[100 100 1000 850])
+subplot(2,1,1)
+plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-', 'LineWidth',1.5)
+legend('Undelayed', 'Input delay', 'Input+Output delay', 'Location', 'best')
+xlabel('Time, t (s)')
+ylabel('$X$(m)')
+set(gca,'FontSize',20)
+
+subplot(2,1,2)
+plot(tvec, yNLund(3,:), 'k-', tvec, yNL(3,:), 'r-', tvec, yNL_del(3,:), 'b-', 'LineWidth',1.5)
+xlabel('Time, t (s)')
+ylabel('$Z$(m)')
+set(gca,'FontSize',20)
 % 
 % figure
 % plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-')

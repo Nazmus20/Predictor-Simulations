@@ -1,0 +1,515 @@
+clc
+close all
+clear all
+
+restoredefaultpath
+addpath('C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\DataFolder')
+load('FinalResultsRMSE.mat')
+
+
+Ts=0.1;
+NF=1;
+
+for CaseNo=1:36
+   if T.Ts(CaseNo)==Ts && T.NF(CaseNo)==NF
+        % 2 deg
+        if T.Amp(CaseNo)==2 && T.TotalDelay(CaseNo)==2
+        data2deg(:,1:3)= [T.xSP(CaseNo) T.xKP(CaseNo) T.xEKP(CaseNo);
+                          T.zSP(CaseNo) T.zKP(CaseNo) T.zEKP(CaseNo);
+                          T.thetaSP(CaseNo) T.thetaKP(CaseNo) T.thetaEKP(CaseNo);
+                          T.uSP(CaseNo) T.uKP(CaseNo) T.uEKP(CaseNo);
+                          T.wSP(CaseNo) T.wKP(CaseNo) T.wEKP(CaseNo);
+                          T.qSP(CaseNo) T.qKP(CaseNo) T.qEKP(CaseNo)];
+        end
+        if T.Amp(CaseNo)==2 && T.TotalDelay(CaseNo)==4
+        data2deg(:,4:6)= [T.xSP(CaseNo) T.xKP(CaseNo) T.xEKP(CaseNo);
+                          T.zSP(CaseNo) T.zKP(CaseNo) T.zEKP(CaseNo);
+                          T.thetaSP(CaseNo) T.thetaKP(CaseNo) T.thetaEKP(CaseNo);
+                          T.uSP(CaseNo) T.uKP(CaseNo) T.uEKP(CaseNo);
+                          T.wSP(CaseNo) T.wKP(CaseNo) T.wEKP(CaseNo);
+                          T.qSP(CaseNo) T.qKP(CaseNo) T.qEKP(CaseNo)];
+        end
+        % 9 deg
+        if T.Amp(CaseNo)==9 && T.TotalDelay(CaseNo)==2
+        data9deg(:,1:3)= [T.xSP(CaseNo) T.xKP(CaseNo) T.xEKP(CaseNo);
+                          T.zSP(CaseNo) T.zKP(CaseNo) T.zEKP(CaseNo);
+                          T.thetaSP(CaseNo) T.thetaKP(CaseNo) T.thetaEKP(CaseNo);
+                          T.uSP(CaseNo) T.uKP(CaseNo) T.uEKP(CaseNo);
+                          T.wSP(CaseNo) T.wKP(CaseNo) T.wEKP(CaseNo);
+                          T.qSP(CaseNo) T.qKP(CaseNo) T.qEKP(CaseNo)];
+        end
+        if T.Amp(CaseNo)==9 && T.TotalDelay(CaseNo)==4
+        data9deg(:,4:6)= [T.xSP(CaseNo) T.xKP(CaseNo) T.xEKP(CaseNo);
+                          T.zSP(CaseNo) T.zKP(CaseNo) T.zEKP(CaseNo);
+                          T.thetaSP(CaseNo) T.thetaKP(CaseNo) T.thetaEKP(CaseNo);
+                          T.uSP(CaseNo) T.uKP(CaseNo) T.uEKP(CaseNo);
+                          T.wSP(CaseNo) T.wKP(CaseNo) T.wEKP(CaseNo);
+                          T.qSP(CaseNo) T.qKP(CaseNo) T.qEKP(CaseNo)];
+        end
+        % 16 deg
+        if T.Amp(CaseNo)==16 && T.TotalDelay(CaseNo)==2
+        data16deg(:,1:3)= [T.xSP(CaseNo) T.xKP(CaseNo) T.xEKP(CaseNo);
+                          T.zSP(CaseNo) T.zKP(CaseNo) T.zEKP(CaseNo);
+                          T.thetaSP(CaseNo) T.thetaKP(CaseNo) T.thetaEKP(CaseNo);
+                          T.uSP(CaseNo) T.uKP(CaseNo) T.uEKP(CaseNo);
+                          T.wSP(CaseNo) T.wKP(CaseNo) T.wEKP(CaseNo);
+                          T.qSP(CaseNo) T.qKP(CaseNo) T.qEKP(CaseNo)];
+        end
+        if T.Amp(CaseNo)==16 && T.TotalDelay(CaseNo)==4
+        data16deg(:,4:6)= [T.xSP(CaseNo) T.xKP(CaseNo) T.xEKP(CaseNo);
+                          T.zSP(CaseNo) T.zKP(CaseNo) T.zEKP(CaseNo);
+                          T.thetaSP(CaseNo) T.thetaKP(CaseNo) T.thetaEKP(CaseNo);
+                          T.uSP(CaseNo) T.uKP(CaseNo) T.uEKP(CaseNo);
+                          T.wSP(CaseNo) T.wKP(CaseNo) T.wEKP(CaseNo);
+                          T.qSP(CaseNo) T.qKP(CaseNo) T.qEKP(CaseNo)];
+        end
+   end
+    
+end
+set(groot,'defaultAxesTickLabelInterpreter','latex');  
+set(groot,'defaulttextinterpreter','latex');
+set(groot,'defaultLegendInterpreter','latex');
+x1=categorical({'$X$(m)','$Z$(m)'});
+x1=reordercats(x1,{'$X$(m)','$Z$(m)'});
+x2=categorical({'$u$(m/s)', '$w$(m/s)'});
+x2=reordercats(x2,{'$u$(m/s)', '$w$(m/s)'});
+x3=categorical({'$\theta$(deg)','$q$(deg/s)'});
+x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
+
+fs=20;
+%Total delay=2
+digits(2)
+posy=25;
+vely=1;
+degy=10;
+figure
+set(gcf, 'Position',[100 100 1300 800])
+subplot(3,3,1)
+hold on
+y=bar(x1,data2deg(1:2,1:3));
+ylabel({'$2^\circ$ doublet','RMSE'})
+set(gca, 'FontSize',fs)
+ylim([0 posy])
+legend('SP','KP','EKP', 'Location','best')
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,2)
+hold on
+y=bar(x2,data2deg(4:5,1:3));
+set(gca, 'FontSize',fs)
+ylim([0 vely])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,3)
+hold on
+y=bar(x3,[data2deg(3,1:3); data2deg(6,1:3)]);
+set(gca, 'FontSize',fs)
+ylim([0 degy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,4)
+hold on
+y=bar(x1,data9deg(1:2,1:3));
+ylabel({'$9^\circ$ doublet','RMSE'})
+set(gca, 'FontSize',fs)
+ylim([0 posy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,5)
+hold on
+y=bar(x2,data9deg(4:5,1:3));
+set(gca, 'FontSize',fs)
+ylim([0 vely])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,6)
+hold on
+y=bar(x3,[data9deg(3,1:3); data9deg(6,1:3)]);
+set(gca, 'FontSize',fs)
+ylim([0 degy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,7)
+hold on
+y=bar(x1,data16deg(1:2,1:3));
+ylabel({'$16^\circ$ doublet','RMSE'})
+set(gca, 'FontSize',fs)
+ylim([0 posy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,8)
+hold on
+y=bar(x2,data16deg(4:5,1:3));
+set(gca, 'FontSize',fs)
+ylim([0 vely])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,9)
+hold on
+y=bar(x3,[data16deg(3,1:3); data16deg(6,1:3)]);
+set(gca, 'FontSize',fs)
+ylim([0 degy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+
+
+%Total delay=4
+figure
+set(gcf, 'Position',[100 100 1300 800])
+subplot(3,3,1)
+hold on
+y=bar(x1,data2deg(1:2,4:6));
+ylabel({'$2^\circ$ doublet','RMSE'})
+set(gca, 'FontSize',fs)
+ylim([0 posy])
+
+legend('SP','KP','EKP', 'Location','best')
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,2)
+hold on
+y=bar(x2,data2deg(4:5,4:6));
+set(gca, 'FontSize',fs)
+ylim([0 vely])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,3)
+hold on
+y=bar(x3,[data2deg(3,4:6); data2deg(6,4:6)]);
+set(gca, 'FontSize',fs)
+ylim([0 degy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,4)
+hold on
+y=bar(x1,data9deg(1:2,4:6));
+ylabel({'$9^\circ$ doublet','RMSE'})
+set(gca, 'FontSize',fs)
+ylim([0 posy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,5)
+hold on
+y=bar(x2,data9deg(4:5,4:6));
+set(gca, 'FontSize',fs)
+ylim([0 vely])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,6)
+hold on
+y=bar(x3,[data9deg(3,4:6); data9deg(6,4:6)]);
+set(gca, 'FontSize',fs)
+ylim([0 degy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,7)
+hold on
+y=bar(x1,data16deg(1:2,4:6));
+ylabel({'$16^\circ$ doublet','RMSE'})
+set(gca, 'FontSize',fs)
+ylim([0 posy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,8)
+hold on
+y=bar(x2,data16deg(4:5,4:6));
+set(gca, 'FontSize',fs)
+ylim([0 vely])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+subplot(3,3,9)
+hold on
+y=bar(x3,[data16deg(3,4:6); data16deg(6,4:6)]);
+
+ylim([0 degy])
+
+xtips1=y(1).XEndPoints;
+ytips1=y(1).YEndPoints;
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
+text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips2=y(2).XEndPoints;
+ytips2=y(2).YEndPoints;
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
+text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+xtips3=y(3).XEndPoints;
+ytips3=y(3).YEndPoints;
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
+text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+set(gca, 'FontSize',fs)
+%%
+cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots'
+ts=num2str(Ts);
+if Ts<0.1
+    ts=ts(end-1:end);
+else 
+    ts=ts(end);
+end
+file1=['RMSE_Tsp',ts,'_NF',num2str(NF),'_del2'];
+file2=['RMSE_Tsp',ts,'_NF',num2str(NF),'_del4'];
+
+savefig([file1,'.fig'])
+savefig([file2,'.fig'])
+saveas(figure(1),file1,'epsc')
+saveas(figure(2),file2,'epsc')
+png1=[file1,'.png'];
+png2=[file2,'.png'];
+exportgraphics(figure(1), png1, 'Resolution', 500)
+exportgraphics(figure(2), png2, 'Resolution', 500)
