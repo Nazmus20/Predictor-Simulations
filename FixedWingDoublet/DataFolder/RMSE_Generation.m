@@ -5,7 +5,8 @@ for CaseNo=1:36
 
 filename=['Case',num2str(CaseNo)]; %Change the folder name you want to work in
 
-addpath(['C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\DataFolder\',filename])
+curr_path = pwd;
+addpath([curr_path,'\',filename])
 
 for i=1:10
     data(i)=load(['data_',num2str(i),'.mat']);
