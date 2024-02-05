@@ -150,6 +150,9 @@ yNL = Cfull*xNL'; yL = Cfull*xL'; %Convert states to output
 yNL_del = addDelay(tvec, yNL, out_del, Cfull*IC);
 yL_del = addDelay(tvec, yL, out_del, Cfull*IC);
 
+set(groot,'defaultAxesTickLabelInterpreter','latex');  
+set(groot,'defaulttextinterpreter','latex');
+set(groot,'defaultLegendInterpreter','latex');
 
 figure
 plot(tvec, de_vec*180/pi, 'k-', tvec, de_vec_del*180/pi, 'r--', 'LineWidth', 1.5)
@@ -161,19 +164,20 @@ set(gca,'FontSize',18)
 set(gcf,'Position',[100 100 800 650])
 
 figure
-set(gcf,'Position',[100 100 1000 850])
-subplot(2,1,1)
+subplot(1,2,1)
 plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-', 'LineWidth',1.5)
 legend('Undelayed', 'Input delay', 'Input+Output delay', 'Location', 'best')
 xlabel('Time, t (s)')
 ylabel('$X$(m)')
-set(gca,'FontSize',20)
+xlim([0 20])
+set(gca,'FontSize',14)
 
-subplot(2,1,2)
-plot(tvec, yNLund(3,:), 'k-', tvec, yNL(3,:), 'r-', tvec, yNL_del(3,:), 'b-', 'LineWidth',1.5)
+subplot(1,2,2)
+plot(tvec, yNLund(5,:), 'k-', tvec, yNL(5,:), 'r-', tvec, yNL_del(5,:), 'b-', 'LineWidth',1.5)
 xlabel('Time, t (s)')
-ylabel('$Z$(m)')
-set(gca,'FontSize',20)
+ylabel('$\theta$(deg)')
+xlim([0 20])
+set(gca,'FontSize',14)
 % 
 % figure
 % plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-')
