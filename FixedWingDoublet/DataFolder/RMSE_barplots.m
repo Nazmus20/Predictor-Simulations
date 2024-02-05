@@ -7,8 +7,8 @@ addpath('C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDou
 load('FinalResultsRMSE.mat')
 
 
-Ts=0.05;
-NF=10;
+Ts=0.1;
+NF=1;
 
 for CaseNo=1:36
    if T.Ts(CaseNo)==Ts && T.NF(CaseNo)==NF
@@ -69,8 +69,8 @@ end
 set(groot,'defaultAxesTickLabelInterpreter','latex');  
 set(groot,'defaulttextinterpreter','latex');
 set(groot,'defaultLegendInterpreter','latex');
-x1=categorical({'$x$(m)','$z$(m)'});
-x1=reordercats(x1,{'$x$(m)','$z$(m)'});
+x1=categorical({'$X$(m)','$Z$(m)'});
+x1=reordercats(x1,{'$X$(m)','$Z$(m)'});
 x2=categorical({'$u$(m/s)', '$w$(m/s)'});
 x2=reordercats(x2,{'$u$(m/s)', '$w$(m/s)'});
 x3=categorical({'$\theta$(deg)','$q$(deg/s)'});
@@ -79,8 +79,8 @@ x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
 fs=20;
 %Total delay=2
 digits(2)
-posy=100;
-vely=2;
+posy=25;
+vely=1;
 degy=10;
 figure
 set(gcf, 'Position',[100 100 1300 800])
@@ -475,7 +475,7 @@ text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
 subplot(3,3,9)
 hold on
 y=bar(x3,[data16deg(3,4:6); data16deg(6,4:6)]);
-set(gca, 'FontSize',fs)
+
 ylim([0 degy])
 
 xtips1=y(1).XEndPoints;
@@ -493,3 +493,23 @@ ytips3=y(3).YEndPoints;
 labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
+set(gca, 'FontSize',fs)
+%%
+cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots'
+ts=num2str(Ts);
+if Ts<0.1
+    ts=ts(end-1:end);
+else 
+    ts=ts(end);
+end
+file1=['RMSE_Tsp',ts,'_NF',num2str(NF),'_del2'];
+file2=['RMSE_Tsp',ts,'_NF',num2str(NF),'_del4'];
+
+savefig([file1,'.fig'])
+savefig([file2,'.fig'])
+saveas(figure(1),file1,'epsc')
+saveas(figure(2),file2,'epsc')
+png1=[file1,'.png'];
+png2=[file2,'.png'];
+exportgraphics(figure(1), png1, 'Resolution', 500)
+exportgraphics(figure(2), png2, 'Resolution', 500)

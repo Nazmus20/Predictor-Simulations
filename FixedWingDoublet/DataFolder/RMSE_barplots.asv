@@ -7,7 +7,7 @@ addpath('C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDou
 load('FinalResultsRMSE.mat')
 
 
-Ts=0.1;
+Ts=0.05;
 NF=10;
 
 for CaseNo=1:36
@@ -69,8 +69,8 @@ end
 set(groot,'defaultAxesTickLabelInterpreter','latex');  
 set(groot,'defaulttextinterpreter','latex');
 set(groot,'defaultLegendInterpreter','latex');
-x1=categorical({'$x$(m)','$z$(m)'});
-x1=reordercats(x1,{'$x$(m)','$z$(m)'});
+x1=categorical({'$X$(m)','$Z$(m)'});
+x1=reordercats(x1,{'$X$(m)','$Z$(m)'});
 x2=categorical({'$u$(m/s)', '$w$(m/s)'});
 x2=reordercats(x2,{'$u$(m/s)', '$w$(m/s)'});
 x3=categorical({'$\theta$(deg)','$q$(deg/s)'});
@@ -81,7 +81,7 @@ fs=20;
 digits(2)
 posy=100;
 vely=2;
-degy=12;
+degy=10;
 figure
 set(gcf, 'Position',[100 100 1300 800])
 subplot(3,3,1)
@@ -99,12 +99,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -121,12 +121,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -143,12 +143,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -166,12 +166,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -188,12 +188,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -210,12 +210,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -233,12 +233,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -255,12 +255,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -277,12 +277,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -307,12 +307,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -329,12 +329,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -351,12 +351,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -374,12 +374,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -396,12 +396,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -418,12 +418,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -441,12 +441,12 @@ text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=strvcat(sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2)));
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=strvcat(sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2)));
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -458,17 +458,17 @@ ylim([0 vely])
 
 xtips1=y(1).XEndPoints;
 ytips1=y(1).YEndPoints;
-labels1=[sprintf('%0.2f',y(1).YData(1)); sprintf('%0.2f',y(1).YData(2))];
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
 text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=[sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2))];
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=[sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2))];
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 
@@ -480,16 +480,20 @@ ylim([0 degy])
 
 xtips1=y(1).XEndPoints;
 ytips1=y(1).YEndPoints;
-labels1=[sprintf('%0.2f',y(1).YData(1)); sprintf('%0.2f',y(1).YData(2))];
+labels1=strvcat(sprintf('%0.2f',y(1).YData(1)), sprintf('%0.2f',y(1).YData(2)));
 text(xtips1,ytips1,labels1,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips2=y(2).XEndPoints;
 ytips2=y(2).YEndPoints;
-labels2=[sprintf('%0.2f',y(2).YData(1)); sprintf('%0.2f',y(2).YData(2))];
+labels2=strvcat(sprintf('%0.2f',y(2).YData(1)), sprintf('%0.2f',y(2).YData(2)));
 text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 xtips3=y(3).XEndPoints;
 ytips3=y(3).YEndPoints;
-labels3=[sprintf('%0.2f',y(3).YData(1)); sprintf('%0.2f',y(3).YData(2))];
+labels3=strvcat(sprintf('%0.2f',y(3).YData(1)), sprintf('%0.2f',y(3).YData(2)));
 text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
+
+cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots'
+file1=['RMSE_Tsp',num2str(Ts),'
+file2=
