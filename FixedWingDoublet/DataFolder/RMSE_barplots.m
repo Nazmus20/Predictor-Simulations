@@ -8,7 +8,10 @@ load('FinalResultsRMSE.mat')
 
 
 Ts=0.1;
-NF=1;
+NF=10;
+posy=100;
+vely=2;
+degy=12;
 
 for CaseNo=1:36
    if T.Ts(CaseNo)==Ts && T.NF(CaseNo)==NF
@@ -79,9 +82,6 @@ x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
 fs=12;
 %Total delay=2
 digits(2)
-posy=25;
-vely=1;
-degy=10;
 figure
 set(gcf, 'Position',[100 100 1200 800])
 subplot(3,3,1)
@@ -507,8 +507,10 @@ file2=['RMSE_Tsp',ts,'_NF',num2str(NF),'_del4'];
 
 savefig([file1,'.fig'])
 savefig([file2,'.fig'])
-saveas(figure(1),file1,'epsc')
-saveas(figure(2),file2,'epsc')
+eps1=[file1,'.eps'];
+eps2=[file2,'.eps'];
+exportgraphics(figure(1), eps1, 'Resolution', 1000)
+exportgraphics(figure(2), eps2, 'Resolution', 1000)
 png1=[file1,'.png'];
 png2=[file2,'.png'];
 exportgraphics(figure(1), png1, 'Resolution', 500)
