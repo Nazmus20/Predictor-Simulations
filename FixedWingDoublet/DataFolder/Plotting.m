@@ -58,15 +58,16 @@ for j=1:12
 end
 
 %%
-Labels={'X, m', 'Y, m', 'Z, m', '\phi, deg', '\theta, deg', '\psi, deg', 'u, m/s', 'v, m/s', 'w, m/s', 'p, deg/s', 'q, deg/s', 'r, deg/s'};
+Labels={'$X$(m)', '$Y$(m)', '$Z$(m)', '$\phi$(deg)', '$\theta$(deg)', '$\psi$(deg)', '$u$(m/s)', '$v$(m/s)', '$w$(m/s)', '$p$(deg/s)', '$q$(deg/s)', '$r$(deg/s)'};
 
 figure
 nplot=5;
-plot(t,y(nplot,:),'k-','LineWidth',1.5)
-hold on
-plot( t,avg_SP(nplot,:),'r-',t,avg_KP(nplot,:),'b-',t,avg_EKP(nplot,:),'g-','LineWidth',1.25)
 
-for iter = 1:N
+
+    plot(t,y(nplot,:),'k-','LineWidth',1.5)
+    hold on
+    plot( t,avg_SP(nplot,:),'r-',t,avg_KP(nplot,:),'b-',t,avg_EKP(nplot,:),'g-','LineWidth',1.25)
+    for iter = 1:N
     kalman_vec(:,iter) =avg_KP(nplot, iter);
     smith_vec(:,iter) = avg_SP(nplot, iter);
     ext_kalman_vec(:,iter)=avg_EKP(nplot,iter);
