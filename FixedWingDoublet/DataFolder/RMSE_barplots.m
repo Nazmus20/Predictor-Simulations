@@ -76,14 +76,14 @@ x2=reordercats(x2,{'$u$(m/s)', '$w$(m/s)'});
 x3=categorical({'$\theta$(deg)','$q$(deg/s)'});
 x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
 
-fs=20;
+fs=12;
 %Total delay=2
 digits(2)
 posy=25;
 vely=1;
 degy=10;
 figure
-set(gcf, 'Position',[100 100 1300 800])
+set(gcf, 'Position',[100 100 1200 800])
 subplot(3,3,1)
 hold on
 y=bar(x1,data2deg(1:2,1:3));
@@ -290,7 +290,7 @@ text(xtips3,ytips3,labels3,'HorizontalAlignment','center',...
 
 %Total delay=4
 figure
-set(gcf, 'Position',[100 100 1300 800])
+set(gcf, 'Position',[100 100 1200 800])
 subplot(3,3,1)
 hold on
 y=bar(x1,data2deg(1:2,4:6));
