@@ -87,8 +87,8 @@ tf=30; %Final time, sec
 Ts=.1; %Sampling time, sec
 tvec=[0:Ts:tf]'; %High precision time vector, sec
 
-in_del = 2; %Delay between command and system
-out_del = 2; %Delays between system and groundstation
+in_del = 1; %Delay between command and system
+out_del = 1; %Delays between system and groundstation
 in_delDT = in_del/Ts; %Delay between command and system in DT
 out_delDT = out_del/Ts; %Delays between system and groundstation in DT
 %% Linearization around the equilibrium, obtained from "EOMs.nb"
@@ -211,7 +211,7 @@ legend('\thetaLund', '\thetaNLund','\thetaNL', '\thetaNL_del', '\thetaL', '\thet
 
 %Add Gaussian white noise in the measurement with zero mean and some
 %variance. The covariances are assumed to be zero.
-NF = 10; %factor to control noise values in all the states 
+NF = 1; %factor to control noise values in all the states 
 x_noise_std = NF*.01; y_noise_std = NF*.01; z_noise_std = NF*.01; 
 phi_noise_std = NF*.01; theta_noise_std = NF*.01; psi_noise_std = NF*.01; 
 u_noise_std = NF*.1; v_noise_std = NF*.1; w_noise_std = NF*.1; 
@@ -581,3 +581,24 @@ trajectory(north,east,down,roll,pitch,yaw,scaleFactor,var,aircraft)
 ax = gca; ax.ZLim = [25 150]; ax.XLim = [-30 30];
 set(gcf,'Position',[100 100 800 650])
 set(gca, 'View', [23.6396 16.4041])
+
+%{
+% EKP Correction plot
+close all;
+
+figure
+subplot(1,2,1)
+plot(tvec, yNLund(1,:), 'k-', tvec, yNL(1,:), 'r-', tvec, yNL_del(1,:), 'b-', TEKP, YEKP(1,:), 'g--', 'LineWidth',1.5)
+legend('Undelayed', 'Input delay', 'Input+Output delay', 'EKP Prediction', 'Location', 'best')
+xlabel('Time (s)')
+ylabel('$X$(m)')
+xlim([2 20])
+set(gca,'FontSize',14)
+
+subplot(1,2,2)
+plot(tvec, yNLund(5,:)*180/pi, 'k-', tvec, yNL(5,:)*180/pi, 'r-', tvec, yNL_del(5,:)*180/pi, 'b-', TEKP, YEKP(5,:)*180/pi, 'g--', 'LineWidth',1.5)
+xlabel('Time (s)')
+ylabel('$\theta$(deg)')
+xlim([2 20])
+set(gca,'FontSize',14)
+%}
