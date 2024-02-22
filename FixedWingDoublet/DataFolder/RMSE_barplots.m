@@ -8,7 +8,7 @@ load('FinalResultsRMSE.mat')
 
 %% Data for Ts=0.01;
 Ts=0.01;
-NF=10;
+NF=1;
 
 if NF==1
     caseNF=['i'];
@@ -30,7 +30,7 @@ x2=reordercats(x2,{'$u$(m/s)', '$w$(m/s)'});
 x3=categorical({'$\theta$(deg)','$q$(deg/s)'});
 x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
 
-fs=10;
+fs=14;
 digits(2)
 %View= [-13.5000   29.3212]; %For NF=1;
 View= [11.2331   34.6208]; %For NF=10;
@@ -996,7 +996,7 @@ text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'Horizont
 
 
 %% saving plots
-cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots\NEWRMSE_2'
+cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots\NEWRMSE'
 
 
 for i=1:18
