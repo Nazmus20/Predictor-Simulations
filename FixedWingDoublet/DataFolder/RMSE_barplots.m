@@ -10,6 +10,12 @@ load('FinalResultsRMSE.mat')
 Ts=0.01;
 NF=10;
 
+if NF==1
+    caseNF=['i'];
+else 
+    caseNF=['ii'];
+end
+
 [data2deg,data9deg,data16deg]=getdata(Ts,NF,T);
 
 
@@ -30,8 +36,9 @@ digits(2)
 View= [11.2331   34.6208]; %For NF=10;
 % Delay = 2s
 XZdata=[data16deg(1,1:3), data16deg(2,1:3); data9deg(1,1:3), data9deg(2,1:3); data2deg(1,1:3), data2deg(2,1:3)];
-figure(1)
-subplot(3,3,1)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_C_XZ');
 XZbar=bar3(XZdata);
 for k=1:length(XZbar)
     XZbar(k).FaceAlpha = '0.9';
@@ -53,7 +60,7 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
 set(gca, 'View', View);
-zscale=1.5;
+zscale=0.75;
 text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
 text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
 text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
@@ -80,7 +87,9 @@ text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignm
                                  
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,1:3), data16deg(5,1:3); data9deg(4,1:3), data9deg(5,1:3); data2deg(4,1:3), data2deg(5,1:3)];
-subplot(3,3,2)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_C_uw');
 uwbar=bar3(uwdata);
 for k=1:length(uwbar)
     uwbar(k).FaceAlpha = '0.9';
@@ -131,7 +140,9 @@ text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignm
 
 % theta and q RMSE 
 thetaqdata=[data16deg(3,1:3), data16deg(6,1:3); data9deg(3,1:3), data9deg(6,1:3); data2deg(3,1:3), data2deg(6,1:3)];
-subplot(3,3,3)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_C_thetaq');
 thetaqbar=bar3(thetaqdata);
 for k=1:length(thetaqbar)
     thetaqbar(k).FaceAlpha = '0.9';
@@ -179,8 +190,9 @@ text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'Horizont
 
 %% delay = 4s
 XZdata=[data16deg(1,4:6), data16deg(2,4:6); data9deg(1,4:6), data9deg(2,4:6); data2deg(1,4:6), data2deg(2,4:6)];
-figure(2)
-subplot(3,3,1)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_C_XZ');
 XZbar=bar3(XZdata);
 for k=1:length(XZbar)
     XZbar(k).FaceAlpha = '0.9';
@@ -202,7 +214,7 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
 set(gca, 'View', View);
-zscale=2;
+zscale=0.75;
 text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
 text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
 text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
@@ -229,7 +241,9 @@ text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignm
                                  
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,4:6), data16deg(5,4:6); data9deg(4,4:6), data9deg(5,4:6); data2deg(4,4:6), data2deg(5,4:6)];
-subplot(3,3,2)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_C_uw');
 uwbar=bar3(uwdata);
 for k=1:length(uwbar)
     uwbar(k).FaceAlpha = '0.9';
@@ -280,7 +294,9 @@ text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignm
 
 % theta and q RMSE 
 thetaqdata=[data16deg(3,4:6), data16deg(6,4:6); data9deg(3,4:6), data9deg(6,4:6); data2deg(3,4:6), data2deg(6,4:6)];
-subplot(3,3,3)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_C_thetaq');
 thetaqbar=bar3(thetaqdata);
 for k=1:length(thetaqbar)
     thetaqbar(k).FaceAlpha = '0.9';
@@ -345,8 +361,9 @@ x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
 digits(2)
 %Delay = 2s
 XZdata=[data16deg(1,1:3), data16deg(2,1:3); data9deg(1,1:3), data9deg(2,1:3); data2deg(1,1:3), data2deg(2,1:3)];
-figure(1)
-subplot(3,3,4)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_B_XZ');
 XZbar=bar3(XZdata);
 for k=1:length(XZbar)
     XZbar(k).FaceAlpha = '0.9';
@@ -368,7 +385,7 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
 set(gca, 'View', View);
-zscale=1.5;
+zscale=0.75;
 text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
 text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
 text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
@@ -395,7 +412,9 @@ text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignm
                                  
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,1:3), data16deg(5,1:3); data9deg(4,1:3), data9deg(5,1:3); data2deg(4,1:3), data2deg(5,1:3)];
-subplot(3,3,5)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_B_uw');
 uwbar=bar3(uwdata);
 for k=1:length(uwbar)
     uwbar(k).FaceAlpha = '0.9';
@@ -446,7 +465,9 @@ text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignm
 
 % theta and q RMSE 
 thetaqdata=[data16deg(3,1:3), data16deg(6,1:3); data9deg(3,1:3), data9deg(6,1:3); data2deg(3,1:3), data2deg(6,1:3)];
-subplot(3,3,6)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_B_thetaq');
 thetaqbar=bar3(thetaqdata);
 for k=1:length(thetaqbar)
     thetaqbar(k).FaceAlpha = '0.9';
@@ -494,8 +515,9 @@ text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'Horizont
 
 %% delay = 4s
 XZdata=[data16deg(1,4:6), data16deg(2,4:6); data9deg(1,4:6), data9deg(2,4:6); data2deg(1,4:6), data2deg(2,4:6)];
-figure(2)
-subplot(3,3,4)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_B_XZ');
 XZbar=bar3(XZdata);
 for k=1:length(XZbar)
     XZbar(k).FaceAlpha = '0.9';
@@ -517,7 +539,7 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
 set(gca, 'View', View);
-zscale=1.5;
+zscale=0.75;
 text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
 text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
 text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
@@ -544,7 +566,9 @@ text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignm
                                  
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,4:6), data16deg(5,4:6); data9deg(4,4:6), data9deg(5,4:6); data2deg(4,4:6), data2deg(5,4:6)];
-subplot(3,3,5)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_B_uw');
 uwbar=bar3(uwdata);
 for k=1:length(uwbar)
     uwbar(k).FaceAlpha = '0.9';
@@ -595,7 +619,9 @@ text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignm
 
 % theta and q RMSE 
 thetaqdata=[data16deg(3,4:6), data16deg(6,4:6); data9deg(3,4:6), data9deg(6,4:6); data2deg(3,4:6), data2deg(6,4:6)];
-subplot(3,3,6)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_B_thetaq');
 thetaqbar=bar3(thetaqdata);
 for k=1:length(thetaqbar)
     thetaqbar(k).FaceAlpha = '0.9';
@@ -661,8 +687,9 @@ x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
 digits(2)
 XZdata=[data16deg(1,1:3), data16deg(2,1:3); data9deg(1,1:3), data9deg(2,1:3); data2deg(1,1:3), data2deg(2,1:3)];
 
-figure(1)
-subplot(3,3,7)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_A_XZ');
 XZbar=bar3(XZdata);
 for k=1:length(XZbar)
     XZbar(k).FaceAlpha = '0.9';
@@ -684,7 +711,7 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
 set(gca, 'View', View);
-zscale=1.5;
+zscale=0.75;
 text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
 text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
 text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
@@ -711,7 +738,9 @@ text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignm
                                  
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,1:3), data16deg(5,1:3); data9deg(4,1:3), data9deg(5,1:3); data2deg(4,1:3), data2deg(5,1:3)];
-subplot(3,3,8)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_A_uw');
 uwbar=bar3(uwdata);
 for k=1:length(uwbar)
     uwbar(k).FaceAlpha = '0.9';
@@ -762,7 +791,9 @@ text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignm
 
 % theta and q RMSE 
 thetaqdata=[data16deg(3,1:3), data16deg(6,1:3); data9deg(3,1:3), data9deg(6,1:3); data2deg(3,1:3), data2deg(6,1:3)];
-subplot(3,3,9)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_1_A_thetaq');
 thetaqbar=bar3(thetaqdata);
 for k=1:length(thetaqbar)
     thetaqbar(k).FaceAlpha = '0.9';
@@ -811,8 +842,9 @@ text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'Horizont
 
 %% delay = 4s
 XZdata=[data16deg(1,4:6), data16deg(2,4:6); data9deg(1,4:6), data9deg(2,4:6); data2deg(1,4:6), data2deg(2,4:6)];
-figure(2)
-subplot(3,3,7)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_A_XZ');
 XZbar=bar3(XZdata);
 for k=1:length(XZbar)
     XZbar(k).FaceAlpha = '0.9';
@@ -834,7 +866,7 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
 set(gca, 'View', View);
-zscale=1.5;
+zscale=0.75;
 text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
 text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
 text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
@@ -861,7 +893,9 @@ text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignm
                                  
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,4:6), data16deg(5,4:6); data9deg(4,4:6), data9deg(5,4:6); data2deg(4,4:6), data2deg(5,4:6)];
-subplot(3,3,8)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_A_uw');
 uwbar=bar3(uwdata);
 for k=1:length(uwbar)
     uwbar(k).FaceAlpha = '0.9';
@@ -912,7 +946,9 @@ text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignm
 
 % theta and q RMSE 
 thetaqdata=[data16deg(3,4:6), data16deg(6,4:6); data9deg(3,4:6), data9deg(6,4:6); data2deg(3,4:6), data2deg(6,4:6)];
-subplot(3,3,9)
+figure
+nPlot = get(gcf,'Number');
+filename{nPlot}=strcat('case_abc_',caseNF,'_2_A_thetaq');
 thetaqbar=bar3(thetaqdata);
 for k=1:length(thetaqbar)
     thetaqbar(k).FaceAlpha = '0.9';
@@ -960,23 +996,26 @@ text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'Horizont
 
 
 %% saving plots
-cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots\NewRMSE'
+cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots\NEWRMSE_2'
 
-file1=['RMSE_NF',num2str(NF),'_del2'];
-figure(1)
-set(gcf, 'Position', get(0, 'Screensize'));
 
-savefig([file1,'.fig'])
-eps1=[file1,'.eps'];
-exportgraphics(figure(1), eps1, 'Resolution', 1000)
-png1=[file1,'.png'];
-exportgraphics(figure(1), png1, 'Resolution', 500)
+for i=1:18
+    file=filename{i};
+    figure(i)
+    savefig([file,'.fig'])
+    eps=[file,'.eps'];
+    exportgraphics(figure(i), eps, 'Resolution', 600)
+    svg1=[file,'.svg'];
+    saveas(figure(i), svg1)
+    png=[file,'.png'];
+    exportgraphics(figure(i), png, 'Resolution', 600)
+end
 
-file1=['RMSE_NF',num2str(NF),'_del4'];
-figure(2)
-set(gcf, 'Position', get(0, 'Screensize'));
-savefig([file1,'.fig'])
-eps1=[file1,'.eps'];
-exportgraphics(figure(2), eps1, 'Resolution', 1000)
-png1=[file1,'.png'];
-exportgraphics(figure(2), png1, 'Resolution', 500)
+% file1=['RMSE_NF',num2str(NF),'_del4'];
+% figure(2)
+% set(gcf, 'Position', get(0, 'Screensize'));
+% savefig([file1,'.fig'])
+% eps1=[file1,'.eps'];
+% exportgraphics(figure(2), eps1, 'Resolution', 1000)
+% png1=[file1,'.png'];
+%exportgraphics(figure(2), png1, 'Resolution', 500)
