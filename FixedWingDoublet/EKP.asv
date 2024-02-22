@@ -87,7 +87,7 @@ i=d1+d2-1;
 
 figure
 subplot(1,2,1)
-plot(Time, yhat(1,:), 'k-', Time, xp(1,:), 'g--', 'LineWidth', 1.5)
+plot(Time, yhat(1,:), 'k-', Time, xp(1,:), 'r--', 'LineWidth', 1.5)
 xlabel('Time, $t$ (s)', 'Interpreter', 'latex')
 ylabel('$X$ (m)', 'Interpreter', 'latex')
 xlim([4 20])
@@ -95,32 +95,30 @@ xlim([4 20])
 hold on
 x1 = Time(71); 
 y1 = yhat(1,71) 
-plot(x1,y1,'bo', 'MarkerFaceColor', 'b')
-labels = {'$t=7$ s, $X=109.41$ m'};
-text(x1,y1,labels,'VerticalAlignment','top','HorizontalAlignment','left', 'FontSize',14, 'Interpreter','latex', 'Color','b')
+plot(x1,y1,'bo', 'MarkerSize', 10, 'MarkerFaceColor', 'b')
 hold on
 x2 = Time(91); 
 y2 = yhat(1,91)
-plot(x2,y2,'ro', 'MarkerFaceColor', 'r')
-labels = {'$t=9$ s, $X=139.33$ m'};
-text(x2,y2,labels,'VerticalAlignment','top','HorizontalAlignment','left', 'FontSize',14, 'Interpreter','latex', 'Color','r')
+plot(x2,y2,'go', 'MarkerSize', 10, 'MarkerFaceColor', 'g')
+labels = {'$t=7$ s, $X=109.4058$ m', '$t=9$ s, $X=139.3297$ m'};
+text([x1, x2], [y1, y2],labels,'VerticalAlignment','top','HorizontalAlignment','left', 'FontSize',14, 'Interpreter','latex')
 set(gca,'FontSize',14)
 
 subplot(1,2,2)
-plot(Time, yhat(5,:)*180/pi, 'k-', Time, xp(5,:)*180/pi, 'g--', 'LineWidth', 1.5)
+plot(Time, yhat(5,:)*180/pi, 'k-', Time, xp(5,:)*180/pi, 'r--', 'LineWidth', 1.5)
 xlabel('Time, $t$ (s)', 'Interpreter', 'latex')
 ylabel('$\theta$ (deg)', 'Interpreter', 'latex')
 xlim([4 20])
 hold on
 x1 = Time(71); 
 y1 = yhat(5,71)*180/pi 
-plot(x1,y1,'bo', 'MarkerFaceColor', 'b')
-labels = {'$t=7$ s, $\theta=0.91$ deg'};
-text(x1,y1,labels,'VerticalAlignment','bottom','HorizontalAlignment','center', 'FontSize',14, 'Interpreter','latex', 'Color', 'b')
+plot(x1,y1,'bo', 'MarkerSize', 10, 'MarkerFaceColor', 'b')
+labels = {'$t=7$ s, $\theta=0.9101$ deg', '$t=9$ s, $\theta=-78.9805$ deg'};
+text(x1,y1,labels,'VerticalAlignment','top','HorizontalAlignment','left', 'FontSize',14, 'Interpreter','latex')
 hold on
 x2 = Time(91); 
 y2 = yhat(5,91)*180/pi
-plot(x2,y2,'ro', 'MarkerFaceColor', 'r')
-labels = {'$t=9$ s, $\theta=-78.98$ deg'};
-text(x2, y2,labels,'VerticalAlignment','top','HorizontalAlignment','center', 'FontSize',14, 'Interpreter','latex', 'Color', 'r')
+plot(x2,y2,'go', 'MarkerSize', 10, 'MarkerFaceColor', 'g')
+labels = {'$t=7$ s, $\theta=0.9101$ deg', '$t=9$ s, $\theta=-78.9805$ deg'};
+text(x2, y2,labels,'VerticalAlignment','top','HorizontalAlignment','center', 'FontSize',14, 'Interpreter','latex')
 set(gca,'FontSize',14)
