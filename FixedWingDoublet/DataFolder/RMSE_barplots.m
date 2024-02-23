@@ -12,8 +12,11 @@ NF=10;
 
 if NF==1
     caseNF=['i'];
+    View= [-13.5000   29.3212]; %For NF=1;
+
 else 
     caseNF=['ii'];
+    View= [11.2331   34.6208]; %For NF=10;
 end
 
 [data2deg,data9deg,data16deg]=getdata(Ts,NF,T);
@@ -31,9 +34,9 @@ x3=categorical({'$\theta$(deg)','$q$(deg/s)'});
 x3=reordercats(x3,{'$\theta$(deg)','$q$(deg/s)'});
 
 fs=14;
+Position=[681   528   613   451];
 digits(2)
-%View= [-13.5000   29.3212]; %For NF=1;
-View= [11.2331   34.6208]; %For NF=10;
+
 % Delay = 2s
 XZdata=[data16deg(1,1:3), data16deg(2,1:3); data9deg(1,1:3), data9deg(2,1:3); data2deg(1,1:3), data2deg(2,1:3)];
 figure
@@ -59,32 +62,34 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs)
+
 zscale=0.75;
-text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.1f',XZdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.1f',XZdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.1f',XZdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.2f',XZdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.2f',XZdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.2f',XZdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.1f',XZdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.1f',XZdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.1f',XZdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.2f',XZdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.2f',XZdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.2f',XZdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.1f',XZdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.1f',XZdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.1f',XZdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.2f',XZdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.2f',XZdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.2f',XZdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.1f',XZdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.1f',XZdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.1f',XZdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.2f',XZdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.2f',XZdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.2f',XZdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.1f',XZdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.1f',XZdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.1f',XZdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.2f',XZdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.2f',XZdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignment','left')
-                                 
+text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.1f',XZdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.1f',XZdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.1f',XZdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)            
+
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,1:3), data16deg(5,1:3); data9deg(4,1:3), data9deg(5,1:3); data2deg(4,1:3), data2deg(5,1:3)];
 figure
@@ -110,32 +115,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}u\rm{(m/s)} \\ \rm{SP}\en
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.025;
-text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.2f',uwdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.2f',uwdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.2f',uwdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.1f',uwdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.1f',uwdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.1f',uwdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.2f',uwdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.2f',uwdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.2f',uwdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.1f',uwdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.1f',uwdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.1f',uwdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.2f',uwdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.2f',uwdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.2f',uwdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.1f',uwdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.1f',uwdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.1f',uwdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.2f',uwdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.2f',uwdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.2f',uwdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.1f',uwdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.1f',uwdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.1f',uwdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.2f',uwdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.2f',uwdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.2f',uwdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.1f',uwdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.1f',uwdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.1f',uwdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.2f',uwdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.2f',uwdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignment','left')
-                               
+text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.1f',uwdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.1f',uwdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.1f',uwdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)                               
 
 
 % theta and q RMSE 
@@ -162,32 +167,33 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}\theta\rm{(deg)} \\ \rm{S
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.25;
-text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.2f',thetaqdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.2f',thetaqdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.2f',thetaqdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.1f',thetaqdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.1f',thetaqdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.1f',thetaqdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.2f',thetaqdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.2f',thetaqdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.2f',thetaqdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.1f',thetaqdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.1f',thetaqdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.1f',thetaqdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.2f',thetaqdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.2f',thetaqdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.2f',thetaqdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.1f',thetaqdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.1f',thetaqdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.1f',thetaqdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.2f',thetaqdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.2f',thetaqdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.2f',thetaqdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.1f',thetaqdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.1f',thetaqdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.1f',thetaqdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.2f',thetaqdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.2f',thetaqdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.2f',thetaqdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.1f',thetaqdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.1f',thetaqdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.1f',thetaqdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.2f',thetaqdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.2f',thetaqdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'HorizontalAlignment','left')
+text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.1f',thetaqdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.1f',thetaqdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.1f',thetaqdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
 
+set(gcf, 'Position', Position)
 %% delay = 4s
 XZdata=[data16deg(1,4:6), data16deg(2,4:6); data9deg(1,4:6), data9deg(2,4:6); data2deg(1,4:6), data2deg(2,4:6)];
 figure
@@ -213,32 +219,33 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.75;
-text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.1f',XZdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.1f',XZdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.1f',XZdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.2f',XZdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.2f',XZdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.2f',XZdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.1f',XZdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.1f',XZdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.1f',XZdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.2f',XZdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.2f',XZdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.2f',XZdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.1f',XZdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.1f',XZdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.1f',XZdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.2f',XZdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.2f',XZdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.2f',XZdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.1f',XZdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.1f',XZdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.1f',XZdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.2f',XZdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.2f',XZdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.2f',XZdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.1f',XZdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.1f',XZdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.1f',XZdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.2f',XZdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.2f',XZdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignment','left')
-                                 
+text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.1f',XZdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.1f',XZdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.1f',XZdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+   set(gcf, 'Position', Position)
+   
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,4:6), data16deg(5,4:6); data9deg(4,4:6), data9deg(5,4:6); data2deg(4,4:6), data2deg(5,4:6)];
 figure
@@ -264,32 +271,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}u\rm{(m/s)} \\ \rm{SP}\en
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.025;
-text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.2f',uwdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.2f',uwdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.2f',uwdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.1f',uwdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.1f',uwdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.1f',uwdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.2f',uwdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.2f',uwdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.2f',uwdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.1f',uwdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.1f',uwdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.1f',uwdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.2f',uwdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.2f',uwdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.2f',uwdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.1f',uwdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.1f',uwdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.1f',uwdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.2f',uwdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.2f',uwdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.2f',uwdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.1f',uwdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.1f',uwdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.1f',uwdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.2f',uwdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.2f',uwdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.2f',uwdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.1f',uwdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.1f',uwdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.1f',uwdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.2f',uwdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.2f',uwdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignment','left')
-                               
+text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.1f',uwdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.1f',uwdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.1f',uwdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)                               
 
 
 % theta and q RMSE 
@@ -316,31 +323,33 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}\theta\rm{(deg)} \\ \rm{S
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.25;
-text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.2f',thetaqdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.2f',thetaqdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.2f',thetaqdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.1f',thetaqdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.1f',thetaqdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.1f',thetaqdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.2f',thetaqdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.2f',thetaqdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.2f',thetaqdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.1f',thetaqdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.1f',thetaqdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.1f',thetaqdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.2f',thetaqdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.2f',thetaqdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.2f',thetaqdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.1f',thetaqdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.1f',thetaqdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.1f',thetaqdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.2f',thetaqdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.2f',thetaqdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.2f',thetaqdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.1f',thetaqdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.1f',thetaqdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.1f',thetaqdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.2f',thetaqdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.2f',thetaqdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.2f',thetaqdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.1f',thetaqdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.1f',thetaqdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.1f',thetaqdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.2f',thetaqdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.2f',thetaqdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'HorizontalAlignment','left')
+text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.1f',thetaqdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.1f',thetaqdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.1f',thetaqdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
+
 %% Data for Ts=0.05;
 Ts=0.05;
 
@@ -384,32 +393,33 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.75;
-text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.1f',XZdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.1f',XZdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.1f',XZdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.2f',XZdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.2f',XZdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.2f',XZdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.1f',XZdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.1f',XZdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.1f',XZdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.2f',XZdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.2f',XZdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.2f',XZdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.1f',XZdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.1f',XZdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.1f',XZdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.2f',XZdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.2f',XZdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.2f',XZdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.1f',XZdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.1f',XZdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.1f',XZdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.2f',XZdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.2f',XZdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.2f',XZdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.1f',XZdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.1f',XZdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.1f',XZdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.2f',XZdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.2f',XZdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignment','left')
-                                 
+text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.1f',XZdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.1f',XZdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.1f',XZdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
+
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,1:3), data16deg(5,1:3); data9deg(4,1:3), data9deg(5,1:3); data2deg(4,1:3), data2deg(5,1:3)];
 figure
@@ -435,32 +445,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}u\rm{(m/s)} \\ \rm{SP}\en
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.025;
-text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.2f',uwdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.2f',uwdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.2f',uwdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.1f',uwdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.1f',uwdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.1f',uwdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.2f',uwdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.2f',uwdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.2f',uwdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.1f',uwdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.1f',uwdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.1f',uwdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.2f',uwdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.2f',uwdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.2f',uwdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.1f',uwdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.1f',uwdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.1f',uwdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.2f',uwdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.2f',uwdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.2f',uwdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.1f',uwdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.1f',uwdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.1f',uwdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.2f',uwdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.2f',uwdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.2f',uwdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.1f',uwdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.1f',uwdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.1f',uwdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.2f',uwdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.2f',uwdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignment','left')
-                               
+text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.1f',uwdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.1f',uwdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.1f',uwdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)                               
 
 
 % theta and q RMSE 
@@ -487,31 +497,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}\theta\rm{(deg)} \\ \rm{S
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.25;
-text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.2f',thetaqdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.2f',thetaqdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.2f',thetaqdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.1f',thetaqdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.1f',thetaqdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.1f',thetaqdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.2f',thetaqdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.2f',thetaqdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.2f',thetaqdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.1f',thetaqdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.1f',thetaqdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.1f',thetaqdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.2f',thetaqdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.2f',thetaqdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.2f',thetaqdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.1f',thetaqdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.1f',thetaqdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.1f',thetaqdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.2f',thetaqdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.2f',thetaqdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.2f',thetaqdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.1f',thetaqdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.1f',thetaqdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.1f',thetaqdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.2f',thetaqdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.2f',thetaqdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.2f',thetaqdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.1f',thetaqdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.1f',thetaqdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.1f',thetaqdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.2f',thetaqdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.2f',thetaqdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'HorizontalAlignment','left')
+text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.1f',thetaqdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.1f',thetaqdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.1f',thetaqdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
 
 %% delay = 4s
 XZdata=[data16deg(1,4:6), data16deg(2,4:6); data9deg(1,4:6), data9deg(2,4:6); data2deg(1,4:6), data2deg(2,4:6)];
@@ -538,32 +549,33 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.75;
-text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.1f',XZdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.1f',XZdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.1f',XZdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.2f',XZdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.2f',XZdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.2f',XZdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.1f',XZdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.1f',XZdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.1f',XZdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.2f',XZdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.2f',XZdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.2f',XZdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.1f',XZdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.1f',XZdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.1f',XZdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.2f',XZdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.2f',XZdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.2f',XZdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.1f',XZdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.1f',XZdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.1f',XZdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.2f',XZdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.2f',XZdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.2f',XZdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.1f',XZdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.1f',XZdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.1f',XZdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.2f',XZdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.2f',XZdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignment','left')
-                                 
+text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.1f',XZdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.1f',XZdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.1f',XZdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
+
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,4:6), data16deg(5,4:6); data9deg(4,4:6), data9deg(5,4:6); data2deg(4,4:6), data2deg(5,4:6)];
 figure
@@ -589,32 +601,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}u\rm{(m/s)} \\ \rm{SP}\en
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.025;
-text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.2f',uwdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.2f',uwdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.2f',uwdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.1f',uwdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.1f',uwdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.1f',uwdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.2f',uwdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.2f',uwdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.2f',uwdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.1f',uwdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.1f',uwdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.1f',uwdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.2f',uwdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.2f',uwdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.2f',uwdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.1f',uwdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.1f',uwdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.1f',uwdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.2f',uwdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.2f',uwdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.2f',uwdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.1f',uwdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.1f',uwdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.1f',uwdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.2f',uwdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.2f',uwdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.2f',uwdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.1f',uwdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.1f',uwdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.1f',uwdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.2f',uwdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.2f',uwdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignment','left')
-                               
+text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.1f',uwdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.1f',uwdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.1f',uwdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)                               
 
 
 % theta and q RMSE 
@@ -641,31 +653,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}\theta\rm{(deg)} \\ \rm{S
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.25;
-text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.2f',thetaqdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.2f',thetaqdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.2f',thetaqdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.1f',thetaqdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.1f',thetaqdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.1f',thetaqdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.2f',thetaqdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.2f',thetaqdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.2f',thetaqdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.1f',thetaqdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.1f',thetaqdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.1f',thetaqdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.2f',thetaqdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.2f',thetaqdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.2f',thetaqdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.1f',thetaqdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.1f',thetaqdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.1f',thetaqdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.2f',thetaqdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.2f',thetaqdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.2f',thetaqdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.1f',thetaqdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.1f',thetaqdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.1f',thetaqdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.2f',thetaqdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.2f',thetaqdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.2f',thetaqdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.1f',thetaqdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.1f',thetaqdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.1f',thetaqdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.2f',thetaqdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.2f',thetaqdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'HorizontalAlignment','left')
+text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.1f',thetaqdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.1f',thetaqdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.1f',thetaqdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
 
 %% Data for Ts=0.1;
 Ts=0.1;
@@ -710,32 +723,33 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.75;
-text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.1f',XZdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.1f',XZdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.1f',XZdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.2f',XZdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.2f',XZdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.2f',XZdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.1f',XZdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.1f',XZdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.1f',XZdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.2f',XZdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.2f',XZdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.2f',XZdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.1f',XZdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.1f',XZdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.1f',XZdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.2f',XZdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.2f',XZdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.2f',XZdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.1f',XZdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.1f',XZdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.1f',XZdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.2f',XZdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.2f',XZdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.2f',XZdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.1f',XZdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.1f',XZdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.1f',XZdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.2f',XZdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.2f',XZdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignment','left')
-                                 
+text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.1f',XZdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.1f',XZdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.1f',XZdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
+
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,1:3), data16deg(5,1:3); data9deg(4,1:3), data9deg(5,1:3); data2deg(4,1:3), data2deg(5,1:3)];
 figure
@@ -761,32 +775,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}u\rm{(m/s)} \\ \rm{SP}\en
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.025;
-text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.2f',uwdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.2f',uwdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.2f',uwdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.1f',uwdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.1f',uwdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.1f',uwdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.2f',uwdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.2f',uwdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.2f',uwdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.1f',uwdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.1f',uwdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.1f',uwdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.2f',uwdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.2f',uwdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.2f',uwdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.1f',uwdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.1f',uwdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.1f',uwdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.2f',uwdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.2f',uwdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.2f',uwdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.1f',uwdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.1f',uwdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.1f',uwdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.2f',uwdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.2f',uwdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.2f',uwdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.1f',uwdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.1f',uwdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.1f',uwdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.2f',uwdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.2f',uwdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignment','left')
-                               
+text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.1f',uwdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.1f',uwdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.1f',uwdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)                               
 
 
 % theta and q RMSE 
@@ -813,32 +827,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}\theta\rm{(deg)} \\ \rm{S
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.25;
-text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.2f',thetaqdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.2f',thetaqdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.2f',thetaqdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.1f',thetaqdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.1f',thetaqdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.1f',thetaqdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.2f',thetaqdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.2f',thetaqdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.2f',thetaqdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.1f',thetaqdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.1f',thetaqdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.1f',thetaqdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.2f',thetaqdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.2f',thetaqdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.2f',thetaqdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.1f',thetaqdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.1f',thetaqdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.1f',thetaqdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.2f',thetaqdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.2f',thetaqdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.2f',thetaqdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.1f',thetaqdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.1f',thetaqdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.1f',thetaqdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.2f',thetaqdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.2f',thetaqdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.2f',thetaqdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.1f',thetaqdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.1f',thetaqdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.1f',thetaqdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.2f',thetaqdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.2f',thetaqdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'HorizontalAlignment','left')
-                                
+text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.1f',thetaqdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.1f',thetaqdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.1f',thetaqdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)                                
 
 %% delay = 4s
 XZdata=[data16deg(1,4:6), data16deg(2,4:6); data9deg(1,4:6), data9deg(2,4:6); data2deg(1,4:6), data2deg(2,4:6)];
@@ -865,32 +879,33 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}Z\rm{(m)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.75;
-text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.2f',XZdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.2f',XZdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.2f',XZdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, XZdata(1,1)+zscale,sprintf('%0.1f',XZdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, XZdata(2,1)+zscale,sprintf('%0.1f',XZdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, XZdata(3,1)+zscale,sprintf('%0.1f',XZdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.2f',XZdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.2f',XZdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.2f',XZdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, XZdata(1,2)+zscale,sprintf('%0.1f',XZdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, XZdata(2,2)+zscale,sprintf('%0.1f',XZdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, XZdata(3,2)+zscale,sprintf('%0.1f',XZdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.2f',XZdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.2f',XZdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.2f',XZdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, XZdata(1,3)+zscale,sprintf('%0.1f',XZdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, XZdata(2,3)+zscale,sprintf('%0.1f',XZdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, XZdata(3,3)+zscale,sprintf('%0.1f',XZdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.2f',XZdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.2f',XZdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.2f',XZdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, XZdata(1,4)+zscale,sprintf('%0.1f',XZdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, XZdata(2,4)+zscale,sprintf('%0.1f',XZdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, XZdata(3,4)+zscale,sprintf('%0.1f',XZdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.2f',XZdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.2f',XZdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.2f',XZdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, XZdata(1,5)+zscale,sprintf('%0.1f',XZdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, XZdata(2,5)+zscale,sprintf('%0.1f',XZdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, XZdata(3,5)+zscale,sprintf('%0.1f',XZdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.2f',XZdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.2f',XZdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.2f',XZdata(3,6)),'HorizontalAlignment','left')
-                                 
+text(6-0.25,1, XZdata(1,6)+zscale,sprintf('%0.1f',XZdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, XZdata(2,6)+zscale,sprintf('%0.1f',XZdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, XZdata(3,6)+zscale,sprintf('%0.1f',XZdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
+
 % u and w plots RMSE                                  
 uwdata=[data16deg(4,4:6), data16deg(5,4:6); data9deg(4,4:6), data9deg(5,4:6); data2deg(4,4:6), data2deg(5,4:6)];
 figure
@@ -916,32 +931,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}u\rm{(m/s)} \\ \rm{SP}\en
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}w\rm{(m/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.02;
-text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.2f',uwdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.2f',uwdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.2f',uwdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, uwdata(1,1)+zscale,sprintf('%0.1f',uwdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, uwdata(2,1)+zscale,sprintf('%0.1f',uwdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, uwdata(3,1)+zscale,sprintf('%0.1f',uwdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.2f',uwdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.2f',uwdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.2f',uwdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, uwdata(1,2)+zscale,sprintf('%0.1f',uwdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, uwdata(2,2)+zscale,sprintf('%0.1f',uwdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, uwdata(3,2)+zscale,sprintf('%0.1f',uwdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.2f',uwdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.2f',uwdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.2f',uwdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, uwdata(1,3)+zscale,sprintf('%0.1f',uwdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, uwdata(2,3)+zscale,sprintf('%0.1f',uwdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, uwdata(3,3)+zscale,sprintf('%0.1f',uwdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.2f',uwdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.2f',uwdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.2f',uwdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, uwdata(1,4)+zscale,sprintf('%0.1f',uwdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, uwdata(2,4)+zscale,sprintf('%0.1f',uwdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, uwdata(3,4)+zscale,sprintf('%0.1f',uwdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.2f',uwdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.2f',uwdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.2f',uwdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, uwdata(1,5)+zscale,sprintf('%0.1f',uwdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, uwdata(2,5)+zscale,sprintf('%0.1f',uwdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, uwdata(3,5)+zscale,sprintf('%0.1f',uwdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.2f',uwdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.2f',uwdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.2f',uwdata(3,6)),'HorizontalAlignment','left')
-                               
+text(6-0.25,1, uwdata(1,6)+zscale,sprintf('%0.1f',uwdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, uwdata(2,6)+zscale,sprintf('%0.1f',uwdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, uwdata(3,6)+zscale,sprintf('%0.1f',uwdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)                               
 
 
 % theta and q RMSE 
@@ -968,32 +983,32 @@ set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}\theta\rm{(deg)} \\ \rm{S
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{KP}\end{array}$',...
                                      '$\begin{array}{c}q\\ \rm{(deg/s)} \\ \rm{EKP}\end{array}$'});
-set(gca, 'View', View);
+set(gca, 'View', View); set(gca, 'FontSize', fs);
 zscale=0.2;
-text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.2f',thetaqdata(1,1)),'HorizontalAlignment','left')
-text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.2f',thetaqdata(2,1)),'HorizontalAlignment','left')
-text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.2f',thetaqdata(3,1)),'HorizontalAlignment','left')
+text(1-0.25,1, thetaqdata(1,1)+zscale,sprintf('%0.1f',thetaqdata(1,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,2, thetaqdata(2,1)+zscale,sprintf('%0.1f',thetaqdata(2,1)),'HorizontalAlignment','left', 'FontSize', fs)
+text(1-0.25,3, thetaqdata(3,1)+zscale,sprintf('%0.1f',thetaqdata(3,1)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.2f',thetaqdata(1,2)),'HorizontalAlignment','left')
-text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.2f',thetaqdata(2,2)),'HorizontalAlignment','left')
-text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.2f',thetaqdata(3,2)),'HorizontalAlignment','left')
+text(2-0.25,1, thetaqdata(1,2)+zscale,sprintf('%0.1f',thetaqdata(1,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,2, thetaqdata(2,2)+zscale,sprintf('%0.1f',thetaqdata(2,2)),'HorizontalAlignment','left', 'FontSize', fs)
+text(2-0.25,3, thetaqdata(3,2)+zscale,sprintf('%0.1f',thetaqdata(3,2)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.2f',thetaqdata(1,3)),'HorizontalAlignment','left')
-text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.2f',thetaqdata(2,3)),'HorizontalAlignment','left')
-text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.2f',thetaqdata(3,3)),'HorizontalAlignment','left')
+text(3-0.25,1, thetaqdata(1,3)+zscale,sprintf('%0.1f',thetaqdata(1,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,2, thetaqdata(2,3)+zscale,sprintf('%0.1f',thetaqdata(2,3)),'HorizontalAlignment','left', 'FontSize', fs)
+text(3-0.25,3, thetaqdata(3,3)+zscale,sprintf('%0.1f',thetaqdata(3,3)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.2f',thetaqdata(1,4)),'HorizontalAlignment','left')
-text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.2f',thetaqdata(2,4)),'HorizontalAlignment','left')
-text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.2f',thetaqdata(3,4)),'HorizontalAlignment','left')
+text(4-0.25,1, thetaqdata(1,4)+zscale,sprintf('%0.1f',thetaqdata(1,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,2, thetaqdata(2,4)+zscale,sprintf('%0.1f',thetaqdata(2,4)),'HorizontalAlignment','left', 'FontSize', fs)
+text(4-0.25,3, thetaqdata(3,4)+zscale,sprintf('%0.1f',thetaqdata(3,4)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.2f',thetaqdata(1,5)),'HorizontalAlignment','left')
-text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.2f',thetaqdata(2,5)),'HorizontalAlignment','left')
-text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.2f',thetaqdata(3,5)),'HorizontalAlignment','left')
+text(5-0.25,1, thetaqdata(1,5)+zscale,sprintf('%0.1f',thetaqdata(1,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,2, thetaqdata(2,5)+zscale,sprintf('%0.1f',thetaqdata(2,5)),'HorizontalAlignment','left', 'FontSize', fs)
+text(5-0.25,3, thetaqdata(3,5)+zscale,sprintf('%0.1f',thetaqdata(3,5)),'HorizontalAlignment','left', 'FontSize', fs)
 
-text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.2f',thetaqdata(1,6)),'HorizontalAlignment','left')
-text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.2f',thetaqdata(2,6)),'HorizontalAlignment','left')
-text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.2f',thetaqdata(3,6)),'HorizontalAlignment','left')
-
+text(6-0.25,1, thetaqdata(1,6)+zscale,sprintf('%0.1f',thetaqdata(1,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,2, thetaqdata(2,6)+zscale,sprintf('%0.1f',thetaqdata(2,6)),'HorizontalAlignment','left', 'FontSize', fs)
+text(6-0.25,3, thetaqdata(3,6)+zscale,sprintf('%0.1f',thetaqdata(3,6)),'HorizontalAlignment','left', 'FontSize', fs)
+set(gcf, 'Position', Position)
 
 %% saving plots
 cd 'C:\Users\zakiaahmed\Documents\GitHub\Predictor-Simulations\FixedWingDoublet\Figures and data for presentation\MatlabSimPlots\NEWRMSE'
