@@ -8,7 +8,7 @@ load('FinalResultsRMSE.mat')
 
 %% Data for Ts=0.01;
 Ts=0.01;
-NF=1;
+NF=10;
 
 if NF==1
     caseNF=['i'];
@@ -857,7 +857,7 @@ for k=1:length(XZbar)
         XZbar(k).FaceColor = ['#FFBC25'];
     end
 end
-zlabel({'$T_s=0.01$s','RMSE'})
+zlabel({'$T_s=0.1$s','RMSE'})
 set(gca,'ytick',[1:3],'yticklabel',{'$16^\circ$';'$9^\circ$';'$2^\circ$'});
 set(gca, 'xtick',[1:6],'xticklabel',{'$\begin{array}{c}X\rm{(m)} \\ \rm{SP}\end{array}$',...
                                      '$\begin{array}{c}X\rm{(m)} \\ \rm{KP}\end{array}$',...
