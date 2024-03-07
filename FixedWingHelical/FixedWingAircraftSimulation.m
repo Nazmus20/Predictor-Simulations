@@ -370,7 +370,7 @@ HH = @(x) eye(12);
 
 close all;
 figure
-nplot=12;
+nplot=2;
 label_vec = {'Inertial position, x (m)'; 'Inertial position, y (m)';
     'Inertial position, z (m)'; 'Euler Angles, \phi (rad)'; 'Euler Angles, \theta (rad)';
     'Euler Angles, \psi (rad)'; 'Body Velocity, u (m/s)'; 'Body Velocity, v (m/s)';

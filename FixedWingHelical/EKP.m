@@ -67,8 +67,16 @@ i=d1+d2-1;
         xp(:,k+1)=xm(:,k+1)+K(:,:,k)*(nu);
         Pp(:,:,k+1)=(eye(sz)-K(:,:,k)*Hmat)*Pm(:,:,k+1);
         
-        xdot_eq=feval(f,xp(:,k-d1-d2+1), ukp1);
-        xprev=xp(:,k+1)- xdot_eq*Ts*d1;
+        sum=zeros(1,12);
+        for kk=1:d1
+           xdot_eq(:,kk)=feval(f,xp(:,k-d1+kk), Input(:,k-d1-d2+kk)); 
+           if kk==1 || kk==d1
+               sum=sum+xdot_eq(:,kk);
+           else
+               sum=sum+2*xdot_eq(:,kk);
+           end
+        end
+        xprev=xp(:,k+1)- (d1/(2* d1))*sum;
         
         %This is where we will do prediction
             for j=1:i
