@@ -15,7 +15,8 @@ function [Time_pred, Y_pred]=EKP(Time, Measurement, Input, f, F, h, H, W, V, IC,
 % d1 is the input delay steps
 % d2 is the output delay steps
 
-global XdEq YdEq
+global XdEq YdEq ZdEq phidEq thetadEq psidEq...
+       udEq vdEq wdEq pdEq qdEq rdEq
 
 %Initialize data arrays
 nRK=10;
@@ -67,16 +68,23 @@ i=d1+d2-1;
         xp(:,k+1)=xm(:,k+1)+K(:,:,k)*(nu);
         Pp(:,:,k+1)=(eye(sz)-K(:,:,k)*Hmat)*Pm(:,:,k+1);
         
-        sum=zeros(1,12);
-        for kk=1:d1
-           xdot_eq(:,kk)=feval(f,xp(:,k-d1+kk), Input(:,k-d1-d2+kk)); 
-           if kk==1 || kk==d1
-               sum=sum+xdot_eq(:,kk);
-           else
-               sum=sum+2*xdot_eq(:,kk);
-           end
-        end
-        xprev=xp(:,k+1)- (d1/(2* d1))*sum;
+        T=(k-1)*Ts;
+        tau1= d1*Ts;
+        tau2= d2*Ts;
+        corr(1,1)= integral(XdEq, T-tau1-tau2, T-tau1);
+        corr(2,1)= integral(YdEq, T-tau1-tau2, T-tau1);
+        corr(3,1)= 0; 
+        corr(4,1)= 0; 
+        corr(5,1)= 0; 
+        corr(6,1)= 5*pi/180*tau1; 
+        corr(7,1)= 4.6213*tau1; 
+        corr(8,1)= 4.12379*tau1; 
+        corr(9,1)= 1.53674*tau1; 
+        corr(10,1)= 0; 
+        corr(11,1)= 0; 
+        corr(12,1)= 0; 
+        
+        xprev=xp(:,k+1) - corr;
         
         %This is where we will do prediction
             for j=1:i

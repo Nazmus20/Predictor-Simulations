@@ -43,8 +43,8 @@ pHat=p*b/2/Vt;
 qHat=q*c/2/Vt;
 rHat=r*b/2/Vt;
 Veq=18.1608; 
-del_rpseq=220;
-J=Vt/(del_rpseq*D);
+del_rps=220;
+J=Vt/(del_rps*D);
 
 %define parameters
 %Longitudinal parameter estimates 
@@ -99,7 +99,7 @@ Cl= Clp*pHat + Clda*del_a + Clbeta*beta;
 Cm= Cm0 + Cmq*qHat + Cmde*del_e + Cmalpha*alpha;
 Cn= Cnr*rHat + Cnda*del_a + Cndr*del_r + Cnbeta*beta;
 
-FA= 1/2*rho*Vt^2*S*[Cx; Cy; Cz] + D^4*rho*eta_e*eta_n*del_rpseq^2*[CJ;0;0];
+FA= 1/2*rho*Vt^2*S*[Cx; Cy; Cz] + D^4*rho*eta_e*eta_n*del_rps^2*[CJ;0;0];
 MA= 1/2*rho*Vt^2*S*[b*Cl; c*Cm; b*Cn];
 
 Vi=RIB*vr;
@@ -108,8 +108,8 @@ vrdot= cross(vr,omega) + RIB'*[0;0;g] + FA/m;
 omegadot= inv(Inertia)*cross(Inertia*omega, omega)+inv(Inertia)*MA;
 
 state=[X,Y,Z,phi, theta, psi, vx, vy, vz, p,q,r];
-vars=[X,Y,Z,phi, theta, psi, vx, vy, vz, p, q, r, del_a, del_e, del_r];
-newvars=str2sym({'x(1)', 'x(2)', 'x(3)', 'x(4)', 'x(5)', 'x(6)', 'x(7)', 'x(8)', 'x(9)', 'x(10)', 'x(11)', 'x(12)', 'u(1)', 'u(2)', 'u(3)'});
+vars=[X,Y,Z,phi, theta, psi, vx, vy, vz, p, q, r, del_a, del_e, del_r, del_rps];
+newvars=str2sym({'x(1)', 'x(2)', 'x(3)', 'x(4)', 'x(5)', 'x(6)', 'x(7)', 'x(8)', 'x(9)', 'x(10)', 'x(11)', 'x(12)', 'u(1)', 'u(2)', 'u(3)','u(4)'});
 
 f= vpa(simplify([Vi;Thetadot;vrdot;omegadot]),5)
 Fsmall=vpa(simplify(jacobian([Thetadot;vrdot;omegadot],state(4:12))),5)
