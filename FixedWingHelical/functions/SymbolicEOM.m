@@ -42,8 +42,6 @@ beta=asin(vy/Vt);
 pHat=p*b/2/Vt; 
 qHat=q*c/2/Vt;
 rHat=r*b/2/Vt;
-Veq=18.1608; 
-del_rps=220;
 J=Vt/(del_rps*D);
 
 %define parameters
