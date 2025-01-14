@@ -15,9 +15,10 @@ function [Time_pred, Y_pred]=EKP(Time, Measurement, Input, f, F, h, H, W, V, IC,
 % d1 is the input delay steps
 % d2 is the output delay steps
 
+global XdEq YdEq
 
 %Initialize data arrays
-nRK=20;
+nRK=10;
 kmax=length(Time);
 sz=12;
 sz_out=12;
@@ -56,7 +57,8 @@ i=d1+d2-1;
 
         %Innovation
         nu=y(:,k+1)-yhat(:,k+1);
-        
+
+
         %Gain matrix
         Hmat=feval(H, xm(:,k+1));
         K(:,:,k)=Pm(:,:,k+1)*Hmat'*inv(Hmat*Pm(:,:,k+1)*Hmat' + V);
@@ -65,10 +67,11 @@ i=d1+d2-1;
         xp(:,k+1)=xm(:,k+1)+K(:,:,k)*(nu);
         Pp(:,:,k+1)=(eye(sz)-K(:,:,k)*Hmat)*Pm(:,:,k+1);
 
-        xprev=xp(:,k+1);
+        xprev=xp(:,k+1)-[XdEq*d1*Ts; YdEq*d1*Ts; zeros(10,1)];
         
         %This is where we will do prediction
             for j=1:i
+                
                 [xhat_pred,~]=EKF_prediction(xprev,Input(:,k-d1-d2+j),f,F,Ts,nRK);
                 
                 xprev=xhat_pred;
@@ -77,13 +80,47 @@ i=d1+d2-1;
         P0=Pp(:,:,k+1);
         x0=xp(:,k+1);
         el=k-d1-d2-1; %"actual index"
-        Y_pred(:,el)=feval(h, xprev, Input(:, k-d1-d2+i));
-        %Y_pred(1,el)=Y_pred(1,el)-0;
+        Y_pred(:,el)=feval(h, xprev, Input(:, k-d1-d2+i));        
         Time_pred(el)=Time(k);
-        
-        end
-        
+        end 
     end
 
+figure
+subplot(1,2,1)
+plot(Time, yhat(1,:), 'k-', Time, xp(1,:), 'g--', 'LineWidth', 1.5)
+xlabel('Time, $t$ (s)', 'Interpreter', 'latex')
+ylabel('$X$ (m)', 'Interpreter', 'latex')
+xlim([4 20])
+%legend('Actual state', 'Estimated state')
+hold on
+x1 = Time(71); 
+y1 = yhat(1,71) 
+plot(x1,y1,'bo', 'MarkerFaceColor', 'b')
+labels = {'$t=7$ s, $X=109.41$ m'};
+text(x1,y1,labels,'VerticalAlignment','top','HorizontalAlignment','left', 'FontSize',14, 'Interpreter','latex', 'Color','b')
+hold on
+x2 = Time(91); 
+y2 = yhat(1,91)
+plot(x2,y2,'ro', 'MarkerFaceColor', 'r')
+labels = {'$t=9$ s, $X=139.33$ m'};
+text(x2,y2,labels,'VerticalAlignment','top','HorizontalAlignment','left', 'FontSize',14, 'Interpreter','latex', 'Color','r')
+set(gca,'FontSize',14)
 
-end
+subplot(1,2,2)
+plot(Time, yhat(5,:)*180/pi, 'k-', Time, xp(5,:)*180/pi, 'g--', 'LineWidth', 1.5)
+xlabel('Time, $t$ (s)', 'Interpreter', 'latex')
+ylabel('$\theta$ (deg)', 'Interpreter', 'latex')
+xlim([4 20])
+hold on
+x1 = Time(71); 
+y1 = yhat(5,71)*180/pi 
+plot(x1,y1,'bo', 'MarkerFaceColor', 'b')
+labels = {'$t=7$ s, $\theta=0.91$ deg'};
+text(x1,y1,labels,'VerticalAlignment','bottom','HorizontalAlignment','center', 'FontSize',14, 'Interpreter','latex', 'Color', 'b')
+hold on
+x2 = Time(91); 
+y2 = yhat(5,91)*180/pi
+plot(x2,y2,'ro', 'MarkerFaceColor', 'r')
+labels = {'$t=9$ s, $\theta=-78.98$ deg'};
+text(x2, y2,labels,'VerticalAlignment','top','HorizontalAlignment','center', 'FontSize',14, 'Interpreter','latex', 'Color', 'r')
+set(gca,'FontSize',14)
